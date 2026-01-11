@@ -1,5 +1,6 @@
 // Learn more https://docs.expo.io/guides/customizing-metro
 const { getDefaultConfig } = require("expo/metro-config");
+const { withNativeWind } = require("nativewind/metro");
 const path = require("path");
 
 // Find the workspace root, this can be replaced with `find-yarn-workspace-root`
@@ -18,5 +19,7 @@ config.resolver.nodeModulesPaths = [
 // 3. Enable pnpm compatibility by allowing hierarchical lookup
 // This allows Metro to follow pnpm's symlink structure
 config.resolver.disableHierarchicalLookup = false;
+// 4. Enable package exports for sub-packages like jsx-runtime
+config.resolver.unstable_enablePackageExports = true;
 
-module.exports = config;
+module.exports = withNativeWind(config, { input: "./global.css" });
