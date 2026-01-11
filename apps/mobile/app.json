@@ -30,10 +30,6 @@
       },
       "package": "com.turbo.example"
     },
-    "web": {
-      "favicon": "./assets/favicon.png",
-      "bundler": "metro"
-    },
     "plugins": [
       "expo-router"
     ]
