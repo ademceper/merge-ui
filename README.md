@@ -1,32 +1,62 @@
-# Turborepo react-native starter
+# Merge UI Monorepo
 
-This is a community-maintained example. If you experience a problem, please submit a pull request with a fix. GitHub Issues will be closed.
-
-## Using this example
-
-Run the following command:
-
-```sh
-npx create-turbo@latest -e with-react-native-web
-```
+A Turborepo monorepo setup with React Native and Next.js applications sharing UI components.
 
 ## What's inside?
 
 This Turborepo includes the following packages/apps:
 
-### Apps and Packages
+### Apps
 
-- `native`: a [react-native](https://reactnative.dev/) app built with [expo](https://docs.expo.dev/)
-- `web`: a [Next.js](https://nextjs.org/) app built with [react-native-web](https://necolas.github.io/react-native-web/)
-- `@merge/uim`: a stub [react-native](https://reactnative.dev/) component library shared by both `web` and `native` applications
-- `@merge/ts-cfg`: `tsconfig.json`s used throughout the monorepo
+- `apps/native`: a [React Native](https://reactnative.dev/) app built with [Expo](https://docs.expo.dev/) and [Expo Router](https://docs.expo.dev/router/introduction/)
+- `apps/web`: a [Next.js](https://nextjs.org/) app with [shadcn/ui](https://ui.shadcn.com/) components
+
+### Packages
+
+- `packages/uim`: React Native component library for mobile applications
+  - Components are imported directly from source (no build step)
+  - Tree-shaking enabled - only used components are bundled
+  - Usage: `import { Button } from "@merge/uim/components/button"`
+  
+- `packages/ui`: Next.js/Web component library with shadcn/ui
+  - Usage: `import { Button } from "@merge/ui/components/button"`
+
+- `packages/ts-cfg`: Shared TypeScript configurations
+- `packages/lint-cfg`: Shared ESLint configurations
 
 Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
 
-### Utilities
+## Getting Started
 
-This Turborepo has some additional tools already setup for you:
+### Install dependencies
 
-- [Expo](https://docs.expo.dev/) for native development
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [Prettier](https://prettier.io) for code formatting
+```sh
+pnpm install
+```
+
+### Run development servers
+
+```sh
+# Run all apps in development mode
+pnpm dev
+
+# Run specific app
+cd apps/native && pnpm dev
+cd apps/web && pnpm dev
+```
+
+### Build
+
+```sh
+# Build all apps and packages
+pnpm build
+```
+
+## Tech Stack
+
+- [Turborepo](https://turbo.build/repo) - Monorepo build system
+- [Expo](https://docs.expo.dev/) - React Native framework
+- [Expo Router](https://docs.expo.dev/router/introduction/) - File-based routing for Expo
+- [Next.js](https://nextjs.org/) - React framework for web
+- [TypeScript](https://www.typescriptlang.org/) - Static type checking
+- [pnpm](https://pnpm.io/) - Fast, disk space efficient package manager
