@@ -1,14 +1,12 @@
-"use client";
+import { Button } from "@merge/ui/components/button"
 
-import { Button } from "@repo/ui";
-
-import styles from "../styles/index.module.css";
-
-export default function Web() {
+export default function Page() {
   return (
-    <div className={styles.container}>
-      <h1>Web</h1>
-      <Button onClick={() => console.log("Pressed!")} text="Boop" />
+    <div className="flex items-center justify-center min-h-svh">
+      <div className="flex flex-col items-center justify-center gap-4">
+        <h1 className="text-2xl font-bold">Hello World</h1>
+        <Button size="sm">Button</Button>
+      </div>
     </div>
-  );
+  )
 }

@@ -1,0 +1,21 @@
+{
+  "name": "@merge/uim",
+  "version": "0.0.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "lint": "eslint . --max-warnings 0"
+  },
+  "exports": {
+    "./components/*": "./src/components/*.tsx"
+  },
+  "devDependencies": {
+    "@merge/ts-cfg": "workspace:*",
+    "@types/react": "~19.1.10",
+    "typescript": "~5.9.2"
+  },
+  "dependencies": {
+    "react": "19.1.0",
+    "react-native": "0.81.5"
+  }
+}

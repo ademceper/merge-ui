@@ -14,6 +14,6 @@
   "engines": {
     "node": ">=18"
   },
-  "name": "with-react-native-web",
+  "name": "merge",
   "packageManager": "pnpm@10.17.1"
 }
