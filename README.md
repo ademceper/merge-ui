@@ -8,7 +8,7 @@ This Turborepo includes the following packages/apps:
 
 ### Apps
 
-- `apps/native`: a [React Native](https://reactnative.dev/) app built with [Expo](https://docs.expo.dev/) and [Expo Router](https://docs.expo.dev/router/introduction/)
+- `apps/mobile`: a [React Native](https://reactnative.dev/) app built with [Expo](https://docs.expo.dev/) and [Expo Router](https://docs.expo.dev/router/introduction/)
 - `apps/web`: a [Next.js](https://nextjs.org/) app with [shadcn/ui](https://ui.shadcn.com/) components
 
 ### Packages
@@ -41,7 +41,7 @@ pnpm install
 pnpm dev
 
 # Run specific app
-cd apps/native && pnpm dev
+cd apps/mobile && pnpm dev
 cd apps/web && pnpm dev
 ```
 

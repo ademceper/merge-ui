@@ -2,10 +2,10 @@ import { StyleSheet, Text, View } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { Button } from "@merge/uim/components/button";
 
-export default function Native() {
+export default function Mobile() {
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Native</Text>
+      <Text style={styles.header}>Mobile</Text>
       <Button
         onClick={() => {
           console.log("Pressed!");
