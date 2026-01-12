@@ -10,6 +10,12 @@ module.exports = {
   theme: {
     extend: {
       ...uimTheme.theme.extend,
+      fontFamily: {
+        sans: ["SpaceGrotesk-Regular", "system-ui", "sans-serif"],
+        light: ["SpaceGrotesk-Light", "system-ui", "sans-serif"],
+        medium: ["SpaceGrotesk-Medium", "system-ui", "sans-serif"],
+        bold: ["SpaceGrotesk-Bold", "system-ui", "sans-serif"],
+      },
     },
   },
   plugins: [],
