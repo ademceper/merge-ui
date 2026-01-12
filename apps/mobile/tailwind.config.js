@@ -8,7 +8,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        background: "hsl(0 0% 100%)",
+        background: "hsl(0 5% 96%)",
         foreground: "hsl(0 0% 3.9%)",
         card: {
           DEFAULT: "hsl(0 0% 100%)",
@@ -19,7 +19,7 @@ module.exports = {
           foreground: "hsl(0 0% 3.9%)",
         },
         primary: {
-          DEFAULT: "hsl(0 0% 9%)",
+          DEFAULT: "hsl(0 79% 46%)",
           foreground: "hsl(0 0% 98%)",
         },
         secondary: {
@@ -40,7 +40,7 @@ module.exports = {
         },
         border: "hsl(0 0% 89.8%)",
         input: "hsl(0 0% 89.8%)",
-        ring: "hsl(0 0% 63.9%)",
+        ring: "hsl(0 79% 46%)",
         chart: {
           1: "hsl(12 76% 61%)",
           2: "hsl(173 58% 39%)",
@@ -51,12 +51,12 @@ module.exports = {
         sidebar: {
           DEFAULT: "hsl(0 0% 98%)",
           foreground: "hsl(0 0% 3.9%)",
-          primary: "hsl(0 0% 9%)",
+          primary: "hsl(0 79% 46%)",
           "primary-foreground": "hsl(0 0% 98%)",
           accent: "hsl(0 0% 96.1%)",
           "accent-foreground": "hsl(0 0% 9%)",
           border: "hsl(0 0% 89.8%)",
-          ring: "hsl(0 0% 63.9%)",
+          ring: "hsl(0 79% 46%)",
         },
       },
       borderRadius: {
