@@ -48,13 +48,14 @@ export default function SplashScreen() {
 
   React.useEffect(() => {
     const loadData = async () => {
-      await Promise.all([
-        new Promise((resolve) => setTimeout(resolve, 200)),
-        new Promise((resolve) => setTimeout(resolve, 400)),
-        new Promise((resolve) => setTimeout(resolve, 300)),
-        new Promise((resolve) => setTimeout(resolve, 150)),
-      ]);
-
+      // Replace artificial delays with actual data loading tasks
+      // TODO: Replace with actual async operations:
+      // - preloadCriticalAssets()
+      // - initializeAnalytics()
+      // - checkAuthStatus()
+      // - loadUserPreferences()
+      
+      // For now, set ready immediately (remove artificial delays)
       setIsReady(true);
     };
 

@@ -34,13 +34,18 @@ function Toggle({
 }: TogglePrimitive.RootProps &
   VariantProps<typeof toggleVariants> &
   React.RefAttributes<TogglePrimitive.RootRef>) {
-  return (
-    <TextClassContext.Provider
-      value={cn(
+  const textClassName = React.useMemo(
+    () =>
+      cn(
         'text-sm text-foreground font-medium',
         props.pressed && 'text-accent-foreground',
         className
-      )}>
+      ),
+    [props.pressed, className]
+  );
+
+  return (
+    <TextClassContext.Provider value={textClassName}>
       <TogglePrimitive.Root
         className={cn(
           toggleVariants({ variant, size }),

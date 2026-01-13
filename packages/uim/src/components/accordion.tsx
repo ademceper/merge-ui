@@ -56,6 +56,10 @@ function AccordionItem({
 
 const Trigger = Pressable;
 
+// Animation timing constants to avoid creating new objects on every render
+const EXPAND_TIMING = { duration: 250 };
+const COLLAPSE_TIMING = { duration: 200 };
+
 function AccordionTrigger({
   className,
   children,
@@ -66,7 +70,7 @@ function AccordionTrigger({
   const { isExpanded } = AccordionPrimitive.useItemContext();
 
   const progress = useDerivedValue(
-    () => (isExpanded ? withTiming(1, { duration: 250 }) : withTiming(0, { duration: 200 })),
+    () => (isExpanded ? withTiming(1, EXPAND_TIMING) : withTiming(0, COLLAPSE_TIMING)),
     [isExpanded]
   );
   const chevronStyle = useAnimatedStyle(

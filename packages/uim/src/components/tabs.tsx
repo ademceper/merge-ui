@@ -30,12 +30,17 @@ function TabsTrigger({
   ...props
 }: TabsPrimitive.TriggerProps & React.RefAttributes<TabsPrimitive.TriggerRef>) {
   const { value } = TabsPrimitive.useRootContext();
-  return (
-    <TextClassContext.Provider
-      value={cn(
+  const textClassName = React.useMemo(
+    () =>
+      cn(
         'text-foreground dark:text-muted-foreground text-sm font-medium',
         value === props.value && 'dark:text-foreground'
-      )}>
+      ),
+    [value, props.value]
+  );
+
+  return (
+    <TextClassContext.Provider value={textClassName}>
       <TabsPrimitive.Trigger
         className={cn(
           'flex h-[calc(100%-1px)] flex-row items-center justify-center gap-1.5 rounded-md border border-transparent px-2 py-1 shadow-none shadow-black/5',

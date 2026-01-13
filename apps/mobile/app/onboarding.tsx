@@ -79,14 +79,18 @@ export default function OnboardingScreen() {
       startX.value = translateX.value;
     })
     .onUpdate((e) => {
-      const newTranslateX = startX.value + e.translationX;
+      'worklet'; // Run on UI thread for better performance
       
+      const newTranslateX = startX.value + e.translationX;
+      const minTranslate = -(totalPages - 1) * SCREEN_WIDTH;
+      const RUBBER_BAND_FACTOR = 0.3;
+      
+      // Clamp with rubber-band effect (all calculations on UI thread)
       if (currentPage === 0 && newTranslateX > 0) {
-        translateX.value = newTranslateX * 0.3;
-      } else if (currentPage === totalPages - 1 && newTranslateX < -(totalPages - 1) * SCREEN_WIDTH) {
-        const maxTranslate = -(totalPages - 1) * SCREEN_WIDTH;
-        const overflow = newTranslateX - maxTranslate;
-        translateX.value = maxTranslate + overflow * 0.3;
+        translateX.value = newTranslateX * RUBBER_BAND_FACTOR;
+      } else if (currentPage === totalPages - 1 && newTranslateX < minTranslate) {
+        const overflow = newTranslateX - minTranslate;
+        translateX.value = minTranslate + overflow * RUBBER_BAND_FACTOR;
       } else {
         translateX.value = newTranslateX;
       }

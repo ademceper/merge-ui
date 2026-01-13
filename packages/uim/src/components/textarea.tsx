@@ -2,7 +2,7 @@ import { cn } from '../lib/utils';
 import * as React from 'react';
 import { TextInput, type TextInputProps } from 'react-native';
 
-function Textarea({
+const Textarea = React.memo(function Textarea({
   className,
   multiline = true,
   numberOfLines = 8,
@@ -20,9 +20,10 @@ function Textarea({
       multiline={multiline}
       numberOfLines={numberOfLines}
       textAlignVertical="top"
+      accessibilityRole="text"
       {...props}
     />
   );
-}
+});
 
 export { Textarea };

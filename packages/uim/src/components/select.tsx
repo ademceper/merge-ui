@@ -2,12 +2,12 @@ import { Icon } from './icon';
 import { NativeOnlyAnimatedView } from './native-only-animated-view';
 import { TextClassContext } from './text';
 import { cn } from '../lib/utils';
+import { FullWindowOverlay } from '../lib/platform-overlay';
 import * as SelectPrimitive from '@rn-primitives/select';
 import { Check, ChevronDown, ChevronDownIcon, ChevronUpIcon } from 'lucide-react-native';
 import * as React from 'react';
-import { Platform, ScrollView, StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import { FadeIn, FadeOut } from 'react-native-reanimated';
-import { FullWindowOverlay as RNFullWindowOverlay } from 'react-native-screens';
 
 type Option = SelectPrimitive.Option;
 
@@ -24,6 +24,19 @@ function SelectValue({
     className?: string;
   }) {
   const { value } = SelectPrimitive.useRootContext();
+
+  // Validate value type in development
+  React.useEffect(() => {
+    if (process.env.NODE_ENV === 'development' && value !== undefined && value !== null) {
+      if (typeof value !== 'string' && typeof value !== 'number') {
+        console.warn(
+          `[SelectValue] Invalid value type: expected string or number, got ${typeof value}. Value:`,
+          value
+        );
+      }
+    }
+  }, [value]);
+
   return (
     <SelectPrimitive.Value
       ref={ref}
@@ -63,8 +76,6 @@ function SelectTrigger({
     </SelectPrimitive.Trigger>
   );
 }
-
-const FullWindowOverlay = Platform.OS === 'ios' ? RNFullWindowOverlay : React.Fragment;
 
 function SelectContent({
   className,

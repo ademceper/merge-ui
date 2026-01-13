@@ -2,14 +2,14 @@ import { cn } from '../lib/utils';
 import * as RadioGroupPrimitive from '@rn-primitives/radio-group';
 import * as React from 'react';
 
-function RadioGroup({
+const RadioGroup = React.memo(function RadioGroup({
   className,
   ...props
 }: RadioGroupPrimitive.RootProps & React.RefAttributes<RadioGroupPrimitive.RootRef>) {
   return <RadioGroupPrimitive.Root className={cn('gap-3', className)} {...props} />;
-}
+});
 
-function RadioGroupItem({
+const RadioGroupItem = React.memo(function RadioGroupItem({
   className,
   ...props
 }: RadioGroupPrimitive.ItemProps & React.RefAttributes<RadioGroupPrimitive.ItemRef>) {
@@ -20,10 +20,13 @@ function RadioGroupItem({
         props.disabled && 'opacity-50',
         className
       )}
+      accessibilityRole="radio"
+      accessibilityState={{ checked: props.checked, disabled: props.disabled }}
+      hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
       {...props}>
       <RadioGroupPrimitive.Indicator className="bg-primary size-2 rounded-full" />
     </RadioGroupPrimitive.Item>
   );
-}
+});
 
 export { RadioGroup, RadioGroupItem };

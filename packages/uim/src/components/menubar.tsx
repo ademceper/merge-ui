@@ -2,12 +2,12 @@ import { Icon } from './icon';
 import { NativeOnlyAnimatedView } from './native-only-animated-view';
 import { TextClassContext } from './text';
 import { cn } from '../lib/utils';
+import { FullWindowOverlay } from '../lib/platform-overlay';
 import * as MenubarPrimitive from '@rn-primitives/menubar';
 import { Portal } from '@rn-primitives/portal';
 import { Check, ChevronDown, ChevronRight, ChevronUp } from 'lucide-react-native';
 import * as React from 'react';
 import {
-  Platform,
   Pressable,
   type StyleProp,
   StyleSheet,
@@ -17,7 +17,6 @@ import {
   type ViewStyle,
 } from 'react-native';
 import { FadeIn } from 'react-native-reanimated';
-import { FullWindowOverlay as RNFullWindowOverlay } from 'react-native-screens';
 
 const MenubarMenu = MenubarPrimitive.Menu;
 
@@ -28,8 +27,6 @@ const MenubarPortal = MenubarPrimitive.Portal;
 const MenubarSub = MenubarPrimitive.Sub;
 
 const MenubarRadioGroup = MenubarPrimitive.RadioGroup;
-
-const FullWindowOverlay = Platform.OS === 'ios' ? RNFullWindowOverlay : React.Fragment;
 
 function Menubar({
   className,

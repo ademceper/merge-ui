@@ -6,7 +6,7 @@ import * as React from 'react';
 
 const DEFAULT_HIT_SLOP = 24;
 
-function Checkbox({
+const Checkbox = React.memo(function Checkbox({
   className,
   checkedClassName,
   indicatorClassName,
@@ -27,6 +27,8 @@ function Checkbox({
         className
       )}
       hitSlop={DEFAULT_HIT_SLOP}
+      accessibilityRole="checkbox"
+      accessibilityState={{ checked: props.checked, disabled: props.disabled }}
       {...props}>
       <CheckboxPrimitive.Indicator
         className={cn('bg-primary h-full w-full items-center justify-center', indicatorClassName)}>
@@ -39,6 +41,6 @@ function Checkbox({
       </CheckboxPrimitive.Indicator>
     </CheckboxPrimitive.Root>
   );
-}
+});
 
 export { Checkbox };

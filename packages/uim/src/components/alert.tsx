@@ -10,21 +10,28 @@ function Alert({
   variant,
   children,
   icon,
+  iconLabel,
   iconClassName,
   ...props
 }: ViewProps &
   React.RefAttributes<View> & {
-    icon: LucideIcon;
+    icon?: LucideIcon;
+    iconLabel?: string;
     variant?: 'default' | 'destructive';
     iconClassName?: string;
   }) {
-  return (
-    <TextClassContext.Provider
-      value={cn(
+  const textClassName = React.useMemo(
+    () =>
+      cn(
         'text-sm text-foreground',
         variant === 'destructive' && 'text-destructive',
         className
-      )}>
+      ),
+    [variant, className]
+  );
+
+  return (
+    <TextClassContext.Provider value={textClassName}>
       <View
         role="alert"
         className={cn(
@@ -32,12 +39,17 @@ function Alert({
           className
         )}
         {...props}>
-        <View className="absolute left-3.5 top-3">
-          <Icon
-            as={icon}
-            className={cn('size-4', variant === 'destructive' && 'text-destructive', iconClassName)}
-          />
-        </View>
+        {icon && (
+          <View
+            className="absolute left-3.5 top-3"
+            accessibilityLabel={iconLabel || 'Alert icon'}
+            accessibilityRole="image">
+            <Icon
+              as={icon}
+              className={cn('size-4', variant === 'destructive' && 'text-destructive', iconClassName)}
+            />
+          </View>
+        )}
         {children}
       </View>
     </TextClassContext.Provider>
@@ -48,12 +60,13 @@ function AlertTitle({
   className,
   ...props
 }: React.ComponentProps<typeof Text> & React.RefAttributes<Text>) {
-  return (
-    <Text
-      className={cn('mb-1 ml-0.5 min-h-4 pl-6 font-medium leading-none tracking-tight', className)}
-      {...props}
-    />
+  const textClass = React.useContext(TextClassContext);
+  const titleClassName = React.useMemo(
+    () => cn('mb-1 ml-0.5 min-h-4 pl-6 font-medium leading-none tracking-tight', textClass, className),
+    [textClass, className]
   );
+
+  return <Text className={titleClassName} {...props} />;
 }
 
 function AlertDescription({
@@ -61,16 +74,17 @@ function AlertDescription({
   ...props
 }: React.ComponentProps<typeof Text> & React.RefAttributes<Text>) {
   const textClass = React.useContext(TextClassContext);
-  return (
-    <Text
-      className={cn(
+  const descriptionClassName = React.useMemo(
+    () =>
+      cn(
         'text-muted-foreground ml-0.5 pb-1.5 pl-6 text-sm leading-relaxed',
         textClass?.includes('text-destructive') && 'text-destructive/90',
         className
-      )}
-      {...props}
-    />
+      ),
+    [textClass, className]
   );
+
+  return <Text className={descriptionClassName} {...props} />;
 }
 
 export { Alert, AlertDescription, AlertTitle };

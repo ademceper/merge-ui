@@ -2,7 +2,7 @@ import { cn } from '../lib/utils';
 import * as React from 'react';
 import { TextInput, type TextInputProps } from 'react-native';
 
-function Input({ className, ...props }: TextInputProps & React.RefAttributes<TextInput>) {
+const Input = React.memo(function Input({ className, ...props }: TextInputProps & React.RefAttributes<TextInput>) {
   return (
     <TextInput
       className={cn(
@@ -11,9 +11,10 @@ function Input({ className, ...props }: TextInputProps & React.RefAttributes<Tex
         'placeholder:text-muted-foreground/50',
         className
       )}
+      accessibilityRole="text"
       {...props}
     />
   );
-}
+});
 
 export { Input };

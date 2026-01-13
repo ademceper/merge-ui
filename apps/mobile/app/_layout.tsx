@@ -26,14 +26,13 @@ const AppLayout = () => {
     }
   }, [fontsLoaded, fontError])
 
-  if (!fontsLoaded && !fontError) {
-    return null
-  }
-
   return (
     <Stack
       screenOptions={{
         headerShown: false,
+        headerTitleStyle: {
+          fontFamily: fontsLoaded ? 'SpaceGrotesk-Regular' : undefined,
+        },
       }}
     />
   )

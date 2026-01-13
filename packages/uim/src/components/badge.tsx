@@ -1,5 +1,6 @@
-import { Text, TextClassContext } from './text';
+import { TextClassContext } from './text';
 import { cn } from '../lib/utils';
+import { wrapTextChildren } from '../lib/wrap-children';
 import * as Slot from '@rn-primitives/slot';
 import { cva, type VariantProps } from 'class-variance-authority';
 import * as React from 'react';
@@ -45,16 +46,18 @@ type BadgeProps = ViewProps &
 function Badge({ className, variant, asChild, children, ...props }: BadgeProps) {
   const Component = asChild ? Slot.View : View;
   
-  // React Native'de string children'ı otomatik olarak Text'e sarmalıyoruz
-  const wrappedChildren = React.Children.map(children, (child) => {
-    if (typeof child === 'string' || typeof child === 'number') {
-      return <Text>{child}</Text>;
-    }
-    return child;
-  });
+  const textClassName = React.useMemo(
+    () => badgeTextVariants({ variant }),
+    [variant]
+  );
+
+  const wrappedChildren = React.useMemo(
+    () => wrapTextChildren(children),
+    [children]
+  );
 
   return (
-    <TextClassContext.Provider value={badgeTextVariants({ variant })}>
+    <TextClassContext.Provider value={textClassName}>
       <Component className={cn(badgeVariants({ variant }), className)} {...props}>
         {wrappedChildren}
       </Component>

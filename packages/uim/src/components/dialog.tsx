@@ -1,12 +1,12 @@
 import { Icon } from './icon';
 import { NativeOnlyAnimatedView } from './native-only-animated-view';
 import { cn } from '../lib/utils';
+import { FullWindowOverlay } from '../lib/platform-overlay';
 import * as DialogPrimitive from '@rn-primitives/dialog';
 import { X } from 'lucide-react-native';
 import * as React from 'react';
-import { Platform, Text, View, type ViewProps } from 'react-native';
+import { Text, View, type ViewProps } from 'react-native';
 import { FadeIn, FadeOut } from 'react-native-reanimated';
-import { FullWindowOverlay as RNFullWindowOverlay } from 'react-native-screens';
 
 const Dialog = DialogPrimitive.Root;
 
@@ -16,8 +16,6 @@ const DialogPortal = DialogPrimitive.Portal;
 
 const DialogClose = DialogPrimitive.Close;
 
-const FullWindowOverlay = Platform.OS === 'ios' ? RNFullWindowOverlay : React.Fragment;
-
 function DialogOverlay({
   className,
   children,
@@ -26,6 +24,15 @@ function DialogOverlay({
   React.RefAttributes<DialogPrimitive.OverlayRef> & {
     children?: React.ReactNode;
   }) {
+  // Use key prop to force remount and cleanup animations when dialog opens/closes
+  // This prevents memory leaks from nested animations
+  const [animationKey, setAnimationKey] = React.useState(0);
+
+  React.useEffect(() => {
+    // Reset animation key when component mounts to ensure clean animation state
+    setAnimationKey((prev) => prev + 1);
+  }, []);
+
   return (
     <FullWindowOverlay>
       <DialogPrimitive.Overlay
@@ -35,8 +42,14 @@ function DialogOverlay({
         )}
         {...props}
         asChild>
-        <NativeOnlyAnimatedView entering={FadeIn.duration(200)} exiting={FadeOut.duration(150)}>
-          <NativeOnlyAnimatedView entering={FadeIn.delay(50)} exiting={FadeOut.duration(150)}>
+        <NativeOnlyAnimatedView
+          key={`outer-${animationKey}`}
+          entering={FadeIn.duration(200)}
+          exiting={FadeOut.duration(150)}>
+          <NativeOnlyAnimatedView
+            key={`inner-${animationKey}`}
+            entering={FadeIn.delay(50)}
+            exiting={FadeOut.duration(150)}>
             <>{children}</>
           </NativeOnlyAnimatedView>
         </NativeOnlyAnimatedView>
@@ -67,12 +80,14 @@ function DialogContent({
             className={cn(
               'absolute right-4 top-4 rounded opacity-70 active:opacity-100'
             )}
-            hitSlop={12}>
+            hitSlop={12}
+            accessibilityLabel="Close dialog"
+            accessibilityRole="button"
+            accessibilityHint="Closes the current dialog">
             <Icon
               as={X}
               className={cn('text-accent-foreground size-4 shrink-0')}
             />
-            <Text className="sr-only">Close</Text>
           </DialogPrimitive.Close>
         </DialogPrimitive.Content>
       </DialogOverlay>

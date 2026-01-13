@@ -2,11 +2,11 @@ import { Icon } from './icon';
 import { NativeOnlyAnimatedView } from './native-only-animated-view';
 import { TextClassContext } from './text';
 import { cn } from '../lib/utils';
+import { FullWindowOverlay } from '../lib/platform-overlay';
 import * as DropdownMenuPrimitive from '@rn-primitives/dropdown-menu';
 import { Check, ChevronDown, ChevronRight, ChevronUp } from 'lucide-react-native';
 import * as React from 'react';
 import {
-  Platform,
   type StyleProp,
   StyleSheet,
   Text,
@@ -15,7 +15,6 @@ import {
   type ViewStyle,
 } from 'react-native';
 import { FadeIn } from 'react-native-reanimated';
-import { FullWindowOverlay as RNFullWindowOverlay } from 'react-native-screens';
 
 const DropdownMenu = DropdownMenuPrimitive.Root;
 
@@ -81,8 +80,6 @@ function DropdownMenuSubContent({
   );
 }
 
-const FullWindowOverlay = Platform.OS === 'ios' ? RNFullWindowOverlay : React.Fragment;
-
 function DropdownMenuContent({
   className,
   overlayClassName,
@@ -136,12 +133,17 @@ function DropdownMenuItem({
     inset?: boolean;
     variant?: 'default' | 'destructive';
   }) {
-  return (
-    <TextClassContext.Provider
-      value={cn(
+  const textClassName = React.useMemo(
+    () =>
+      cn(
         'text-sm text-popover-foreground group-active:text-popover-foreground',
         variant === 'destructive' && 'text-destructive group-active:text-destructive'
-      )}>
+      ),
+    [variant]
+  );
+
+  return (
+    <TextClassContext.Provider value={textClassName}>
       <DropdownMenuPrimitive.Item
         className={cn(
           'active:bg-accent group relative flex flex-row items-center gap-2 rounded-sm px-2 py-2',

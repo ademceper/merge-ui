@@ -1,5 +1,6 @@
-import { Text, TextClassContext } from './text';
+import { TextClassContext } from './text';
 import { cn } from '../lib/utils';
+import { wrapTextChildren } from '../lib/wrap-children';
 import { cva, type VariantProps } from 'class-variance-authority';
 import * as React from 'react';
 import { Pressable } from 'react-native';
@@ -61,27 +62,32 @@ type ButtonProps = React.ComponentProps<typeof Pressable> &
     children?: React.ReactNode;
   };
 
-function Button({ className, variant, size, children, disabled, ...props }: ButtonProps) {
-  const wrappedChildren = React.Children.map(children, (child) => {
-    if (typeof child === 'string' || typeof child === 'number') {
-      return <Text>{child}</Text>;
-    }
-    return child;
-  });
+const Button = React.memo(function Button({ className, variant, size, children, disabled, ...props }: ButtonProps) {
+  const textClassName = React.useMemo(
+    () => buttonTextVariants({ variant, size }),
+    [variant, size]
+  );
+
+  const wrappedChildren = React.useMemo(
+    () => wrapTextChildren(children),
+    [children]
+  );
 
   return (
-    <TextClassContext.Provider value={buttonTextVariants({ variant, size })}>
+    <TextClassContext.Provider value={textClassName}>
       <Pressable
         className={cn(disabled && 'opacity-50', buttonVariants({ variant, size }), className)}
         role="button"
         disabled={disabled}
+        accessibilityRole="button"
+        accessibilityState={{ disabled: !!disabled }}
         {...props}
       >
         {wrappedChildren}
       </Pressable>
     </TextClassContext.Provider>
   );
-}
+});
 
 export { Button, buttonTextVariants, buttonVariants };
 export type { ButtonProps };
