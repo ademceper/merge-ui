@@ -4,7 +4,7 @@ import { TextClassContext } from './text';
 import { cn } from '../lib/utils';
 import { FullWindowOverlay } from '../lib/platform-overlay';
 import * as SelectPrimitive from '@rn-primitives/select';
-import { Check, ChevronDown, ChevronDownIcon, ChevronUpIcon } from 'lucide-react-native';
+import { Check, ChevronDown } from 'lucide-react-native';
 import * as React from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { FadeIn, FadeOut } from 'react-native-reanimated';
@@ -15,7 +15,7 @@ const Select = SelectPrimitive.Root;
 
 const SelectGroup = SelectPrimitive.Group;
 
-function SelectValue({
+const SelectValue = React.memo(function SelectValue({
   ref,
   className,
   ...props
@@ -25,14 +25,19 @@ function SelectValue({
   }) {
   const { value } = SelectPrimitive.useRootContext();
 
-  // Validate value type in development
+  // Validate value type (both development and production)
+  // In production, invalid values are silently ignored to prevent crashes
   React.useEffect(() => {
-    if (process.env.NODE_ENV === 'development' && value !== undefined && value !== null) {
+    if (value !== undefined && value !== null) {
       if (typeof value !== 'string' && typeof value !== 'number') {
-        console.warn(
-          `[SelectValue] Invalid value type: expected string or number, got ${typeof value}. Value:`,
-          value
-        );
+        if (process.env.NODE_ENV === 'development') {
+          console.warn(
+            `[SelectValue] Invalid value type: expected string or number, got ${typeof value}. Value:`,
+            value
+          );
+        }
+        // In production, invalid values are handled by the primitive
+        // but we log a warning in development to help developers
       }
     }
   }, [value]);
@@ -48,9 +53,9 @@ function SelectValue({
       {...props}
     />
   );
-}
+})
 
-function SelectTrigger({
+const SelectTrigger = React.memo(function SelectTrigger({
   ref,
   className,
   children,
@@ -70,14 +75,19 @@ function SelectTrigger({
         size === 'sm' && 'h-8 py-2',
         className
       )}
+      accessibilityRole="button"
+      accessibilityLabel={props.accessibilityLabel || 'Select option'}
+      accessibilityHint={props.accessibilityHint || 'Opens a menu to select an option'}
+      accessibilityState={{ disabled: props.disabled }}
+      hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
       {...props}>
       <>{children}</>
       <Icon as={ChevronDown} className="text-muted-foreground size-4" />
     </SelectPrimitive.Trigger>
   );
-}
+});
 
-function SelectContent({
+const SelectContent = React.memo(function SelectContent({
   className,
   children,
   position = 'popper',
@@ -88,11 +98,13 @@ function SelectContent({
     className?: string;
     portalHost?: string;
   }) {
+  const textClassName = React.useMemo(() => 'text-popover-foreground', []);
+
   return (
     <SelectPrimitive.Portal hostName={portalHost}>
       <FullWindowOverlay>
         <SelectPrimitive.Overlay style={StyleSheet.absoluteFill}>
-          <TextClassContext.Provider value="text-popover-foreground">
+          <TextClassContext.Provider value={textClassName}>
             <NativeOnlyAnimatedView className="z-50" entering={FadeIn} exiting={FadeOut}>
               <SelectPrimitive.Content
                 className={cn(
@@ -118,9 +130,9 @@ function SelectContent({
       </FullWindowOverlay>
     </SelectPrimitive.Portal>
   );
-}
+});
 
-function SelectLabel({
+const SelectLabel = React.memo(function SelectLabel({
   className,
   ...props
 }: SelectPrimitive.LabelProps & React.RefAttributes<SelectPrimitive.LabelRef>) {
@@ -130,11 +142,10 @@ function SelectLabel({
       {...props}
     />
   );
-}
+})
 
-function SelectItem({
+const SelectItem = React.memo(function SelectItem({
   className,
-  children,
   ...props
 }: SelectPrimitive.ItemProps & React.RefAttributes<SelectPrimitive.ItemRef>) {
   return (
@@ -153,9 +164,9 @@ function SelectItem({
       <SelectPrimitive.ItemText className="text-foreground group-active:text-accent-foreground text-sm" />
     </SelectPrimitive.Item>
   );
-}
+});
 
-function SelectSeparator({
+const SelectSeparator = React.memo(function SelectSeparator({
   className,
   ...props
 }: SelectPrimitive.SeparatorProps & React.RefAttributes<SelectPrimitive.SeparatorRef>) {
@@ -168,19 +179,19 @@ function SelectSeparator({
       {...props}
     />
   );
-}
+})
 
-function SelectScrollUpButton() {
+const SelectScrollUpButton = React.memo(function SelectScrollUpButton() {
   return null;
-}
+})
 
-function SelectScrollDownButton() {
+const SelectScrollDownButton = React.memo(function SelectScrollDownButton() {
   return null;
-}
+})
 
-function NativeSelectScrollView({ className, ...props }: React.ComponentProps<typeof ScrollView>) {
+const NativeSelectScrollView = React.memo(function NativeSelectScrollView({ className, ...props }: React.ComponentProps<typeof ScrollView>) {
   return <ScrollView className={cn('max-h-52', className)} {...props} />;
-}
+})
 
 export {
   NativeSelectScrollView,

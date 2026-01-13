@@ -4,8 +4,10 @@ import * as React from 'react';
 import { View, type ViewProps } from 'react-native';
 
 const Card = React.memo(function Card({ className, ...props }: ViewProps & React.RefAttributes<View>) {
+  const textClassName = React.useMemo(() => 'text-card-foreground', []);
+
   return (
-    <TextClassContext.Provider value="text-card-foreground">
+    <TextClassContext.Provider value={textClassName}>
       <View
         className={cn(
           'bg-card border-border flex flex-col gap-6 rounded-xl border py-6 shadow-sm shadow-black/5',

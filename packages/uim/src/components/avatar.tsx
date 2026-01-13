@@ -2,7 +2,7 @@ import { cn } from '../lib/utils';
 import * as AvatarPrimitive from '@rn-primitives/avatar';
 import * as React from 'react';
 
-function Avatar({
+const Avatar = React.memo(function Avatar({
   className,
   ...props
 }: AvatarPrimitive.RootProps & React.RefAttributes<AvatarPrimitive.RootRef>) {
@@ -12,16 +12,16 @@ function Avatar({
       {...props}
     />
   );
-}
+});
 
-function AvatarImage({
+const AvatarImage = React.memo(function AvatarImage({
   className,
   ...props
 }: AvatarPrimitive.ImageProps & React.RefAttributes<AvatarPrimitive.ImageRef>) {
   return <AvatarPrimitive.Image className={cn('aspect-square size-full', className)} {...props} />;
-}
+});
 
-function AvatarFallback({
+const AvatarFallback = React.memo(function AvatarFallback({
   className,
   ...props
 }: AvatarPrimitive.FallbackProps & React.RefAttributes<AvatarPrimitive.FallbackRef>) {
@@ -34,6 +34,6 @@ function AvatarFallback({
       {...props}
     />
   );
-}
+});
 
 export { Avatar, AvatarFallback, AvatarImage };

@@ -73,11 +73,12 @@ const FormItemContext = React.createContext<FormItemContextValue>(
   {} as FormItemContextValue
 )
 
-function FormItem({ className, ...props }: React.ComponentProps<"div">) {
+const FormItem = React.memo(function FormItem({ className, ...props }: React.ComponentProps<"div">) {
   const id = React.useId()
+  const contextValue = React.useMemo(() => ({ id }), [id])
 
   return (
-    <FormItemContext.Provider value={{ id }}>
+    <FormItemContext.Provider value={contextValue}>
       <div
         data-slot="form-item"
         className={cn("grid gap-2", className)}
@@ -85,9 +86,9 @@ function FormItem({ className, ...props }: React.ComponentProps<"div">) {
       />
     </FormItemContext.Provider>
   )
-}
+})
 
-function FormLabel({
+const FormLabel = React.memo(function FormLabel({
   className,
   ...props
 }: React.ComponentProps<typeof LabelPrimitive.Root>) {
@@ -102,9 +103,9 @@ function FormLabel({
       {...props}
     />
   )
-}
+})
 
-function FormControl({ ...props }: React.ComponentProps<typeof Slot>) {
+const FormControl = React.memo(function FormControl({ ...props }: React.ComponentProps<typeof Slot>) {
   const { error, formItemId, formDescriptionId, formMessageId } = useFormField()
 
   return (
@@ -120,9 +121,9 @@ function FormControl({ ...props }: React.ComponentProps<typeof Slot>) {
       {...props}
     />
   )
-}
+})
 
-function FormDescription({ className, ...props }: React.ComponentProps<"p">) {
+const FormDescription = React.memo(function FormDescription({ className, ...props }: React.ComponentProps<"p">) {
   const { formDescriptionId } = useFormField()
 
   return (
@@ -133,9 +134,9 @@ function FormDescription({ className, ...props }: React.ComponentProps<"p">) {
       {...props}
     />
   )
-}
+})
 
-function FormMessage({ className, ...props }: React.ComponentProps<"p">) {
+const FormMessage = React.memo(function FormMessage({ className, ...props }: React.ComponentProps<"p">) {
   const { error, formMessageId } = useFormField()
   const body = error ? String(error?.message ?? "") : props.children
 
@@ -153,7 +154,7 @@ function FormMessage({ className, ...props }: React.ComponentProps<"p">) {
       {body}
     </p>
   )
-}
+})
 
 export {
   useFormField,

@@ -5,7 +5,7 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@merge/ui/lib/utils"
 import { Separator } from "@merge/ui/components/separator"
 
-function ItemGroup({ className, ...props }: React.ComponentProps<"div">) {
+const ItemGroup = React.memo(function ItemGroup({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       role="list"
@@ -14,9 +14,9 @@ function ItemGroup({ className, ...props }: React.ComponentProps<"div">) {
       {...props}
     />
   )
-}
+})
 
-function ItemSeparator({
+const ItemSeparator = React.memo(function ItemSeparator({
   className,
   ...props
 }: React.ComponentProps<typeof Separator>) {
@@ -28,7 +28,7 @@ function ItemSeparator({
       {...props}
     />
   )
-}
+})
 
 const itemVariants = cva(
   "group/item flex items-center border border-transparent text-sm rounded-md transition-colors [a]:hover:bg-accent/50 [a]:transition-colors duration-100 flex-wrap outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]",
@@ -51,7 +51,7 @@ const itemVariants = cva(
   }
 )
 
-function Item({
+const Item = React.memo(function Item({
   className,
   variant = "default",
   size = "default",
@@ -69,7 +69,7 @@ function Item({
       {...props}
     />
   )
-}
+})
 
 const itemMediaVariants = cva(
   "flex shrink-0 items-center justify-center gap-2 group-has-[[data-slot=item-description]]/item:self-start [&_svg]:pointer-events-none group-has-[[data-slot=item-description]]/item:translate-y-0.5",
@@ -88,7 +88,7 @@ const itemMediaVariants = cva(
   }
 )
 
-function ItemMedia({
+const ItemMedia = React.memo(function ItemMedia({
   className,
   variant = "default",
   ...props
@@ -101,9 +101,9 @@ function ItemMedia({
       {...props}
     />
   )
-}
+})
 
-function ItemContent({ className, ...props }: React.ComponentProps<"div">) {
+const ItemContent = React.memo(function ItemContent({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="item-content"
@@ -114,9 +114,9 @@ function ItemContent({ className, ...props }: React.ComponentProps<"div">) {
       {...props}
     />
   )
-}
+})
 
-function ItemTitle({ className, ...props }: React.ComponentProps<"div">) {
+const ItemTitle = React.memo(function ItemTitle({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="item-title"
@@ -127,9 +127,9 @@ function ItemTitle({ className, ...props }: React.ComponentProps<"div">) {
       {...props}
     />
   )
-}
+})
 
-function ItemDescription({ className, ...props }: React.ComponentProps<"p">) {
+const ItemDescription = React.memo(function ItemDescription({ className, ...props }: React.ComponentProps<"p">) {
   return (
     <p
       data-slot="item-description"
@@ -141,9 +141,9 @@ function ItemDescription({ className, ...props }: React.ComponentProps<"p">) {
       {...props}
     />
   )
-}
+})
 
-function ItemActions({ className, ...props }: React.ComponentProps<"div">) {
+const ItemActions = React.memo(function ItemActions({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="item-actions"
@@ -151,9 +151,9 @@ function ItemActions({ className, ...props }: React.ComponentProps<"div">) {
       {...props}
     />
   )
-}
+})
 
-function ItemHeader({ className, ...props }: React.ComponentProps<"div">) {
+const ItemHeader = React.memo(function ItemHeader({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="item-header"
@@ -164,9 +164,9 @@ function ItemHeader({ className, ...props }: React.ComponentProps<"div">) {
       {...props}
     />
   )
-}
+})
 
-function ItemFooter({ className, ...props }: React.ComponentProps<"div">) {
+const ItemFooter = React.memo(function ItemFooter({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="item-footer"
@@ -177,7 +177,7 @@ function ItemFooter({ className, ...props }: React.ComponentProps<"div">) {
       {...props}
     />
   )
-}
+})
 
 export {
   Item,

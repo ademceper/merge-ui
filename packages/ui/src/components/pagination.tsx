@@ -8,7 +8,7 @@ import {
 import { cn } from "@merge/ui/lib/utils"
 import { buttonVariants, type Button } from "@merge/ui/components/button"
 
-function Pagination({ className, ...props }: React.ComponentProps<"nav">) {
+const Pagination = React.memo(function Pagination({ className, ...props }: React.ComponentProps<"nav">) {
   return (
     <nav
       role="navigation"
@@ -18,9 +18,9 @@ function Pagination({ className, ...props }: React.ComponentProps<"nav">) {
       {...props}
     />
   )
-}
+})
 
-function PaginationContent({
+const PaginationContent = React.memo(function PaginationContent({
   className,
   ...props
 }: React.ComponentProps<"ul">) {
@@ -31,18 +31,18 @@ function PaginationContent({
       {...props}
     />
   )
-}
+})
 
-function PaginationItem({ ...props }: React.ComponentProps<"li">) {
+const PaginationItem = React.memo(function PaginationItem({ ...props }: React.ComponentProps<"li">) {
   return <li data-slot="pagination-item" {...props} />
-}
+})
 
 type PaginationLinkProps = {
   isActive?: boolean
 } & Pick<React.ComponentProps<typeof Button>, "size"> &
   React.ComponentProps<"a">
 
-function PaginationLink({
+const PaginationLink = React.memo(function PaginationLink({
   className,
   isActive,
   size = "icon",
@@ -63,9 +63,9 @@ function PaginationLink({
       {...props}
     />
   )
-}
+})
 
-function PaginationPrevious({
+const PaginationPrevious = React.memo(function PaginationPrevious({
   className,
   ...props
 }: React.ComponentProps<typeof PaginationLink>) {
@@ -80,9 +80,9 @@ function PaginationPrevious({
       <span className="hidden sm:block">Previous</span>
     </PaginationLink>
   )
-}
+})
 
-function PaginationNext({
+const PaginationNext = React.memo(function PaginationNext({
   className,
   ...props
 }: React.ComponentProps<typeof PaginationLink>) {
@@ -97,9 +97,9 @@ function PaginationNext({
       <ChevronRightIcon />
     </PaginationLink>
   )
-}
+})
 
-function PaginationEllipsis({
+const PaginationEllipsis = React.memo(function PaginationEllipsis({
   className,
   ...props
 }: React.ComponentProps<"span">) {
@@ -114,7 +114,7 @@ function PaginationEllipsis({
       <span className="sr-only">More pages</span>
     </span>
   )
-}
+})
 
 export {
   Pagination,

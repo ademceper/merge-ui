@@ -51,6 +51,9 @@ const Input = React.memo(function Input({ className, type = 'text', ...props }: 
         "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
         className
       )}
+      aria-label={props['aria-label'] || (props.placeholder ? undefined : 'Input field')}
+      aria-required={props.required}
+      aria-disabled={props.disabled}
       {...props}
     />
   )

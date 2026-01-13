@@ -1,5 +1,6 @@
 "use client"
 
+import * as React from "react"
 import { useMemo } from "react"
 import { cva, type VariantProps } from "class-variance-authority"
 
@@ -7,7 +8,7 @@ import { cn } from "@merge/ui/lib/utils"
 import { Label } from "@merge/ui/components/label"
 import { Separator } from "@merge/ui/components/separator"
 
-function FieldSet({ className, ...props }: React.ComponentProps<"fieldset">) {
+const FieldSet = React.memo(function FieldSet({ className, ...props }: React.ComponentProps<"fieldset">) {
   return (
     <fieldset
       data-slot="field-set"
@@ -19,9 +20,9 @@ function FieldSet({ className, ...props }: React.ComponentProps<"fieldset">) {
       {...props}
     />
   )
-}
+})
 
-function FieldLegend({
+const FieldLegend = React.memo(function FieldLegend({
   className,
   variant = "legend",
   ...props
@@ -39,9 +40,9 @@ function FieldLegend({
       {...props}
     />
   )
-}
+})
 
-function FieldGroup({ className, ...props }: React.ComponentProps<"div">) {
+const FieldGroup = React.memo(function FieldGroup({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="field-group"
@@ -52,7 +53,7 @@ function FieldGroup({ className, ...props }: React.ComponentProps<"div">) {
       {...props}
     />
   )
-}
+})
 
 const fieldVariants = cva(
   "group/field flex w-full gap-3 data-[invalid=true]:text-destructive",
@@ -78,7 +79,7 @@ const fieldVariants = cva(
   }
 )
 
-function Field({
+const Field = React.memo(function Field({
   className,
   orientation = "vertical",
   ...props
@@ -92,9 +93,9 @@ function Field({
       {...props}
     />
   )
-}
+})
 
-function FieldContent({ className, ...props }: React.ComponentProps<"div">) {
+const FieldContent = React.memo(function FieldContent({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="field-content"
@@ -105,9 +106,9 @@ function FieldContent({ className, ...props }: React.ComponentProps<"div">) {
       {...props}
     />
   )
-}
+})
 
-function FieldLabel({
+const FieldLabel = React.memo(function FieldLabel({
   className,
   ...props
 }: React.ComponentProps<typeof Label>) {
@@ -123,9 +124,9 @@ function FieldLabel({
       {...props}
     />
   )
-}
+})
 
-function FieldTitle({ className, ...props }: React.ComponentProps<"div">) {
+const FieldTitle = React.memo(function FieldTitle({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="field-label"
@@ -136,9 +137,9 @@ function FieldTitle({ className, ...props }: React.ComponentProps<"div">) {
       {...props}
     />
   )
-}
+})
 
-function FieldDescription({ className, ...props }: React.ComponentProps<"p">) {
+const FieldDescription = React.memo(function FieldDescription({ className, ...props }: React.ComponentProps<"p">) {
   return (
     <p
       data-slot="field-description"
@@ -151,9 +152,9 @@ function FieldDescription({ className, ...props }: React.ComponentProps<"p">) {
       {...props}
     />
   )
-}
+})
 
-function FieldSeparator({
+const FieldSeparator = React.memo(function FieldSeparator({
   children,
   className,
   ...props
@@ -181,9 +182,9 @@ function FieldSeparator({
       )}
     </div>
   )
-}
+})
 
-function FieldError({
+const FieldError = React.memo(function FieldError({
   className,
   children,
   errors,
@@ -232,7 +233,7 @@ function FieldError({
       {content}
     </div>
   )
-}
+})
 
 export {
   Field,

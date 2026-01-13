@@ -6,23 +6,43 @@ import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from "lucide-react"
 
 import { cn } from "@merge/ui/lib/utils"
 
-function Select({
+const Select = React.memo(function Select({
+  required,
   ...props
 }: React.ComponentProps<typeof SelectPrimitive.Root>) {
-  return <SelectPrimitive.Root data-slot="select" {...props} />
-}
+  return (
+    <SelectPrimitive.Root
+      data-slot="select"
+      required={required}
+      {...props}
+    />
+  )
+})
 
-function SelectGroup({
+const SelectGroup = React.memo(function SelectGroup({
   ...props
 }: React.ComponentProps<typeof SelectPrimitive.Group>) {
   return <SelectPrimitive.Group data-slot="select-group" {...props} />
-}
+})
 
-function SelectValue({
+const SelectValue = React.memo(function SelectValue({
   ...props
 }: React.ComponentProps<typeof SelectPrimitive.Value>) {
+  // Validate value type in development
+  React.useEffect(() => {
+    if (process.env.NODE_ENV === 'development' && props.children !== undefined) {
+      const value = props.children;
+      if (value !== null && value !== undefined && typeof value !== 'string' && typeof value !== 'number') {
+        console.warn(
+          `[SelectValue] Invalid value type: expected string or number, got ${typeof value}. Value:`,
+          value
+        );
+      }
+    }
+  }, [props.children]);
+
   return <SelectPrimitive.Value data-slot="select-value" {...props} />
-}
+})
 
 const SelectTrigger = React.memo(function SelectTrigger({
   className,
@@ -40,6 +60,9 @@ const SelectTrigger = React.memo(function SelectTrigger({
         "border-input data-[placeholder]:text-muted-foreground [&_svg:not([class*='text-'])]:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex w-fit items-center justify-between gap-2 rounded-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
         className
       )}
+      aria-label={props['aria-label'] || 'Select option'}
+      aria-required={props.required}
+      aria-disabled={props.disabled}
       {...props}
     >
       {children}
@@ -87,7 +110,7 @@ const SelectContent = React.memo(function SelectContent({
   )
 })
 
-function SelectLabel({
+const SelectLabel = React.memo(function SelectLabel({
   className,
   ...props
 }: React.ComponentProps<typeof SelectPrimitive.Label>) {
@@ -98,7 +121,7 @@ function SelectLabel({
       {...props}
     />
   )
-}
+})
 
 const SelectItem = React.memo(function SelectItem({
   className,
@@ -127,7 +150,7 @@ const SelectItem = React.memo(function SelectItem({
   )
 })
 
-function SelectSeparator({
+const SelectSeparator = React.memo(function SelectSeparator({
   className,
   ...props
 }: React.ComponentProps<typeof SelectPrimitive.Separator>) {
@@ -138,9 +161,9 @@ function SelectSeparator({
       {...props}
     />
   )
-}
+})
 
-function SelectScrollUpButton({
+const SelectScrollUpButton = React.memo(function SelectScrollUpButton({
   className,
   ...props
 }: React.ComponentProps<typeof SelectPrimitive.ScrollUpButton>) {
@@ -156,9 +179,9 @@ function SelectScrollUpButton({
       <ChevronUpIcon className="size-4" />
     </SelectPrimitive.ScrollUpButton>
   )
-}
+})
 
-function SelectScrollDownButton({
+const SelectScrollDownButton = React.memo(function SelectScrollDownButton({
   className,
   ...props
 }: React.ComponentProps<typeof SelectPrimitive.ScrollDownButton>) {
@@ -174,7 +197,7 @@ function SelectScrollDownButton({
       <ChevronDownIcon className="size-4" />
     </SelectPrimitive.ScrollDownButton>
   )
-}
+})
 
 export {
   Select,

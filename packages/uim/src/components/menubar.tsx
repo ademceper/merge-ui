@@ -5,16 +5,14 @@ import { cn } from '../lib/utils';
 import { FullWindowOverlay } from '../lib/platform-overlay';
 import * as MenubarPrimitive from '@rn-primitives/menubar';
 import { Portal } from '@rn-primitives/portal';
-import { Check, ChevronDown, ChevronRight, ChevronUp } from 'lucide-react-native';
+import { Check, ChevronDown, ChevronUp } from 'lucide-react-native';
 import * as React from 'react';
 import {
   Pressable,
-  type StyleProp,
   StyleSheet,
   Text,
   type TextProps,
   View,
-  type ViewStyle,
 } from 'react-native';
 import { FadeIn } from 'react-native-reanimated';
 
@@ -28,7 +26,7 @@ const MenubarSub = MenubarPrimitive.Sub;
 
 const MenubarRadioGroup = MenubarPrimitive.RadioGroup;
 
-function Menubar({
+const Menubar = React.memo(function Menubar({
   className,
   value: valueProp,
   onValueChange: onValueChangeProp,
@@ -63,21 +61,26 @@ function Menubar({
       />
     </>
   );
-}
+})
 
-function MenubarTrigger({
+const MenubarTrigger = React.memo(function MenubarTrigger({
   className,
   ...props
 }: MenubarPrimitive.TriggerProps & React.RefAttributes<MenubarPrimitive.TriggerRef>) {
   const { value } = MenubarPrimitive.useRootContext();
   const { value: itemValue } = MenubarPrimitive.useMenuContext();
 
-  return (
-    <TextClassContext.Provider
-      value={cn(
+  const textClassName = React.useMemo(
+    () =>
+      cn(
         'text-sm font-medium group-active:text-accent-foreground',
         value === itemValue && 'text-accent-foreground'
-      )}>
+      ),
+    [value, itemValue]
+  );
+
+  return (
+    <TextClassContext.Provider value={textClassName}>
       <MenubarPrimitive.Trigger
         className={cn(
           'group flex items-center rounded-md px-2 py-1.5',
@@ -88,10 +91,9 @@ function MenubarTrigger({
       />
     </TextClassContext.Provider>
   );
-}
+})
 
-function MenubarSubTrigger({
-  className,
+const MenubarSubTrigger = React.memo(function MenubarSubTrigger({
   inset,
   children,
   iconClassName,
@@ -104,12 +106,18 @@ function MenubarSubTrigger({
   }) {
   const { open } = MenubarPrimitive.useSubContext();
   const icon = open ? ChevronUp : ChevronDown;
-  return (
-    <TextClassContext.Provider
-      value={cn(
+  
+  const textClassName = React.useMemo(
+    () =>
+      cn(
         'text-sm group-active:text-accent-foreground',
         open && 'text-accent-foreground'
-      )}>
+      ),
+    [open]
+  );
+
+  return (
+    <TextClassContext.Provider value={textClassName}>
       <MenubarPrimitive.SubTrigger
         className={cn(
           'active:bg-accent group flex flex-row items-center rounded-sm px-2 py-2',
@@ -122,9 +130,9 @@ function MenubarSubTrigger({
       </MenubarPrimitive.SubTrigger>
     </TextClassContext.Provider>
   );
-}
+})
 
-function MenubarSubContent({
+const MenubarSubContent = React.memo(function MenubarSubContent({
   className,
   ...props
 }: MenubarPrimitive.SubContentProps & React.RefAttributes<MenubarPrimitive.SubContentRef>) {
@@ -139,12 +147,10 @@ function MenubarSubContent({
       />
     </NativeOnlyAnimatedView>
   );
-}
+})
 
-function MenubarContent({
+const MenubarContent = React.memo(function MenubarContent({
   className,
-  overlayClassName,
-  overlayStyle,
   portalHost,
   align = 'start',
   alignOffset = -4,
@@ -152,10 +158,10 @@ function MenubarContent({
   ...props
 }: MenubarPrimitive.ContentProps &
   React.RefAttributes<MenubarPrimitive.ContentRef> & {
-    overlayStyle?: StyleProp<ViewStyle>;
-    overlayClassName?: string;
     portalHost?: string;
   }) {
+  const textClassName = React.useMemo(() => 'text-popover-foreground', []);
+
   return (
     <MenubarPrimitive.Portal hostName={portalHost}>
       <FullWindowOverlay>
@@ -163,7 +169,7 @@ function MenubarContent({
           entering={FadeIn}
           style={StyleSheet.absoluteFill}
           pointerEvents="box-none">
-          <TextClassContext.Provider value="text-popover-foreground">
+          <TextClassContext.Provider value={textClassName}>
             <MenubarPrimitive.Content
               className={cn(
                 'bg-popover border-border min-w-[12rem] overflow-hidden rounded-md border p-1 shadow-lg shadow-black/5',
@@ -179,9 +185,9 @@ function MenubarContent({
       </FullWindowOverlay>
     </MenubarPrimitive.Portal>
   );
-}
+})
 
-function MenubarItem({
+const MenubarItem = React.memo(function MenubarItem({
   className,
   inset,
   variant,
@@ -192,12 +198,17 @@ function MenubarItem({
     inset?: boolean;
     variant?: 'default' | 'destructive';
   }) {
-  return (
-    <TextClassContext.Provider
-      value={cn(
+  const textClassName = React.useMemo(
+    () =>
+      cn(
         'text-sm text-popover-foreground group-active:text-popover-foreground',
         variant === 'destructive' && 'text-destructive group-active:text-destructive'
-      )}>
+      ),
+    [variant]
+  );
+
+  return (
+    <TextClassContext.Provider value={textClassName}>
       <MenubarPrimitive.Item
         className={cn(
           'active:bg-accent group relative flex flex-row items-center gap-2 rounded-sm px-2 py-2',
@@ -210,9 +221,9 @@ function MenubarItem({
       />
     </TextClassContext.Provider>
   );
-}
+});
 
-function MenubarCheckboxItem({
+const MenubarCheckboxItem = React.memo(function MenubarCheckboxItem({
   className,
   children,
   ...props
@@ -220,8 +231,10 @@ function MenubarCheckboxItem({
   React.RefAttributes<MenubarPrimitive.CheckboxItemRef> & {
     children?: React.ReactNode;
   }) {
+  const textClassName = React.useMemo(() => 'text-sm text-popover-foreground group-active:text-accent-foreground', []);
+
   return (
-    <TextClassContext.Provider value="text-sm text-popover-foreground group-active:text-accent-foreground">
+    <TextClassContext.Provider value={textClassName}>
       <MenubarPrimitive.CheckboxItem
         className={cn(
           'active:bg-accent group relative flex flex-row items-center gap-2 rounded-sm py-2 pl-8 pr-2',
@@ -243,9 +256,9 @@ function MenubarCheckboxItem({
       </MenubarPrimitive.CheckboxItem>
     </TextClassContext.Provider>
   );
-}
+})
 
-function MenubarRadioItem({
+const MenubarRadioItem = React.memo(function MenubarRadioItem({
   className,
   children,
   ...props
@@ -253,8 +266,10 @@ function MenubarRadioItem({
   React.RefAttributes<MenubarPrimitive.RadioItemRef> & {
     children?: React.ReactNode;
   }) {
+  const textClassName = React.useMemo(() => 'text-sm text-popover-foreground group-active:text-accent-foreground', []);
+
   return (
-    <TextClassContext.Provider value="text-sm text-popover-foreground group-active:text-accent-foreground">
+    <TextClassContext.Provider value={textClassName}>
       <MenubarPrimitive.RadioItem
         className={cn(
           'active:bg-accent group relative flex flex-row items-center gap-2 rounded-sm py-2 pl-8 pr-2',
@@ -271,9 +286,9 @@ function MenubarRadioItem({
       </MenubarPrimitive.RadioItem>
     </TextClassContext.Provider>
   );
-}
+})
 
-function MenubarLabel({
+const MenubarLabel = React.memo(function MenubarLabel({
   className,
   inset,
   ...props
@@ -292,25 +307,25 @@ function MenubarLabel({
       {...props}
     />
   );
-}
+});
 
-function MenubarSeparator({
+const MenubarSeparator = React.memo(function MenubarSeparator({
   className,
   ...props
 }: MenubarPrimitive.SeparatorProps & React.RefAttributes<MenubarPrimitive.SeparatorRef>) {
   return (
     <MenubarPrimitive.Separator className={cn('bg-border -mx-1 my-1 h-px', className)} {...props} />
   );
-}
+});
 
-function MenubarShortcut({ className, ...props }: TextProps & React.RefAttributes<Text>) {
+const MenubarShortcut = React.memo(function MenubarShortcut({ className, ...props }: TextProps & React.RefAttributes<Text>) {
   return (
     <Text
       className={cn('text-muted-foreground ml-auto text-xs tracking-widest', className)}
       {...props}
     />
   );
-}
+});
 
 export {
   Menubar,

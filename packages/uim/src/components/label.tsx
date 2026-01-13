@@ -2,7 +2,7 @@ import { cn } from '../lib/utils';
 import * as LabelPrimitive from '@rn-primitives/label';
 import * as React from 'react';
 
-function Label({
+const Label = React.memo(function Label({
   className,
   onPress,
   onLongPress,
@@ -31,6 +31,6 @@ function Label({
       />
     </LabelPrimitive.Root>
   );
-}
+});
 
 export { Label };

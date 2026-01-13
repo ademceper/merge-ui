@@ -43,7 +43,7 @@ type BadgeProps = ViewProps &
     children?: React.ReactNode;
   } & VariantProps<typeof badgeVariants>;
 
-function Badge({ className, variant, asChild, children, ...props }: BadgeProps) {
+const Badge = React.memo(function Badge({ className, variant, asChild, children, ...props }: BadgeProps) {
   const Component = asChild ? Slot.View : View;
   
   const textClassName = React.useMemo(
@@ -63,7 +63,7 @@ function Badge({ className, variant, asChild, children, ...props }: BadgeProps) 
       </Component>
     </TextClassContext.Provider>
   );
-}
+});
 
 export { Badge, badgeTextVariants, badgeVariants };
 export type { BadgeProps };

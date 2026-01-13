@@ -21,7 +21,7 @@ const buttonGroupVariants = cva(
   }
 )
 
-function ButtonGroup({
+const ButtonGroup = React.memo(function ButtonGroup({
   className,
   orientation,
   ...props
@@ -35,9 +35,9 @@ function ButtonGroup({
       {...props}
     />
   )
-}
+})
 
-function ButtonGroupText({
+const ButtonGroupText = React.memo(function ButtonGroupText({
   className,
   asChild = false,
   ...props
@@ -55,9 +55,9 @@ function ButtonGroupText({
       {...props}
     />
   )
-}
+})
 
-function ButtonGroupSeparator({
+const ButtonGroupSeparator = React.memo(function ButtonGroupSeparator({
   className,
   orientation = "vertical",
   ...props
@@ -73,7 +73,7 @@ function ButtonGroupSeparator({
       {...props}
     />
   )
-}
+})
 
 export {
   ButtonGroup,

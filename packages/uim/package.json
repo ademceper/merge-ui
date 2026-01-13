@@ -12,8 +12,10 @@
     "./tailwind.config": "./tailwind.config.cjs"
   },
   "devDependencies": {
+    "@merge/lint-cfg": "workspace:*",
     "@merge/ts-cfg": "workspace:*",
     "@types/react": "~19.1.10",
+    "eslint": "^9.32.0",
     "nativewind": "^4.2.1",
     "typescript": "~5.9.2"
   },

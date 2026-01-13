@@ -1,6 +1,7 @@
 import { cn } from "@merge/ui/lib/utils"
+import * as React from "react"
 
-function Skeleton({ className, ...props }: React.ComponentProps<"div">) {
+const Skeleton = React.memo(function Skeleton({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="skeleton"
@@ -8,6 +9,6 @@ function Skeleton({ className, ...props }: React.ComponentProps<"div">) {
       {...props}
     />
   )
-}
+})
 
 export { Skeleton }

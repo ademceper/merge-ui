@@ -42,7 +42,7 @@ function useCarousel() {
   return context
 }
 
-function Carousel({
+const Carousel = React.memo(function Carousel({
   orientation = "horizontal",
   opts,
   setApi,
@@ -130,9 +130,9 @@ function Carousel({
       </div>
     </CarouselContext.Provider>
   )
-}
+})
 
-function CarouselContent({ className, ...props }: React.ComponentProps<"div">) {
+const CarouselContent = React.memo(function CarouselContent({ className, ...props }: React.ComponentProps<"div">) {
   const { carouselRef, orientation } = useCarousel()
 
   return (
@@ -151,9 +151,9 @@ function CarouselContent({ className, ...props }: React.ComponentProps<"div">) {
       />
     </div>
   )
-}
+})
 
-function CarouselItem({ className, ...props }: React.ComponentProps<"div">) {
+const CarouselItem = React.memo(function CarouselItem({ className, ...props }: React.ComponentProps<"div">) {
   const { orientation } = useCarousel()
 
   return (
@@ -169,9 +169,9 @@ function CarouselItem({ className, ...props }: React.ComponentProps<"div">) {
       {...props}
     />
   )
-}
+})
 
-function CarouselPrevious({
+const CarouselPrevious = React.memo(function CarouselPrevious({
   className,
   variant = "outline",
   size = "icon",
@@ -199,9 +199,9 @@ function CarouselPrevious({
       <span className="sr-only">Previous slide</span>
     </Button>
   )
-}
+})
 
-function CarouselNext({
+const CarouselNext = React.memo(function CarouselNext({
   className,
   variant = "outline",
   size = "icon",
@@ -229,7 +229,7 @@ function CarouselNext({
       <span className="sr-only">Next slide</span>
     </Button>
   )
-}
+})
 
 export {
   type CarouselApi,

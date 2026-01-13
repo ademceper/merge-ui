@@ -9,7 +9,7 @@ import Animated, {
   withSpring,
 } from 'react-native-reanimated';
 
-function Progress({
+const Progress = React.memo(function Progress({
   className,
   value,
   indicatorClassName,
@@ -38,6 +38,6 @@ function Progress({
       </ProgressPrimitive.Indicator>
     </ProgressPrimitive.Root>
   );
-}
+});
 
 export { Progress };

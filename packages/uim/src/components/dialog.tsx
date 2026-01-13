@@ -5,7 +5,7 @@ import { FullWindowOverlay } from '../lib/platform-overlay';
 import * as DialogPrimitive from '@rn-primitives/dialog';
 import { X } from 'lucide-react-native';
 import * as React from 'react';
-import { Text, View, type ViewProps } from 'react-native';
+import { View, type ViewProps } from 'react-native';
 import { FadeIn, FadeOut } from 'react-native-reanimated';
 
 const Dialog = DialogPrimitive.Root;
@@ -16,7 +16,7 @@ const DialogPortal = DialogPrimitive.Portal;
 
 const DialogClose = DialogPrimitive.Close;
 
-function DialogOverlay({
+const DialogOverlay = React.memo(function DialogOverlay({
   className,
   children,
   ...props
@@ -31,6 +31,12 @@ function DialogOverlay({
   React.useEffect(() => {
     // Reset animation key when component mounts to ensure clean animation state
     setAnimationKey((prev) => prev + 1);
+    
+    // Cleanup: animations are automatically cleaned up when component unmounts
+    // The key prop ensures proper remounting and cleanup
+    return () => {
+      // React Native Reanimated automatically cleans up animations on unmount
+    };
   }, []);
 
   return (
@@ -56,8 +62,14 @@ function DialogOverlay({
       </DialogPrimitive.Overlay>
     </FullWindowOverlay>
   );
-}
-function DialogContent({
+})
+
+const DialogContent: React.NamedExoticComponent<
+  DialogPrimitive.ContentProps &
+    React.RefAttributes<DialogPrimitive.ContentRef> & {
+      portalHost?: string;
+    }
+> = React.memo(function DialogContent({
   className,
   portalHost,
   children,
@@ -93,24 +105,24 @@ function DialogContent({
       </DialogOverlay>
     </DialogPortal>
   );
-}
+});
 
-function DialogHeader({ className, ...props }: ViewProps) {
+const DialogHeader = React.memo(function DialogHeader({ className, ...props }: ViewProps) {
   return (
     <View className={cn('flex flex-col gap-2 text-center', className)} {...props} />
   );
-}
+});
 
-function DialogFooter({ className, ...props }: ViewProps) {
+const DialogFooter = React.memo(function DialogFooter({ className, ...props }: ViewProps) {
   return (
     <View
       className={cn('flex flex-col-reverse gap-2', className)}
       {...props}
     />
   );
-}
+});
 
-function DialogTitle({
+const DialogTitle = React.memo(function DialogTitle({
   className,
   ...props
 }: DialogPrimitive.TitleProps & React.RefAttributes<DialogPrimitive.TitleRef>) {
@@ -120,9 +132,9 @@ function DialogTitle({
       {...props}
     />
   );
-}
+});
 
-function DialogDescription({
+const DialogDescription = React.memo(function DialogDescription({
   className,
   ...props
 }: DialogPrimitive.DescriptionProps & React.RefAttributes<DialogPrimitive.DescriptionRef>) {
@@ -132,7 +144,7 @@ function DialogDescription({
       {...props}
     />
   );
-}
+});
 
 export {
   Dialog,

@@ -6,43 +6,43 @@ import { CheckIcon, ChevronRightIcon, CircleIcon } from "lucide-react"
 
 import { cn } from "@merge/ui/lib/utils"
 
-function ContextMenu({
+const ContextMenu = React.memo(function ContextMenu({
   ...props
 }: React.ComponentProps<typeof ContextMenuPrimitive.Root>) {
   return <ContextMenuPrimitive.Root data-slot="context-menu" {...props} />
-}
+})
 
-function ContextMenuTrigger({
+const ContextMenuTrigger = React.memo(function ContextMenuTrigger({
   ...props
 }: React.ComponentProps<typeof ContextMenuPrimitive.Trigger>) {
   return (
     <ContextMenuPrimitive.Trigger data-slot="context-menu-trigger" {...props} />
   )
-}
+})
 
-function ContextMenuGroup({
+const ContextMenuGroup = React.memo(function ContextMenuGroup({
   ...props
 }: React.ComponentProps<typeof ContextMenuPrimitive.Group>) {
   return (
     <ContextMenuPrimitive.Group data-slot="context-menu-group" {...props} />
   )
-}
+})
 
-function ContextMenuPortal({
+const ContextMenuPortal = React.memo(function ContextMenuPortal({
   ...props
 }: React.ComponentProps<typeof ContextMenuPrimitive.Portal>) {
   return (
     <ContextMenuPrimitive.Portal data-slot="context-menu-portal" {...props} />
   )
-}
+})
 
-function ContextMenuSub({
+const ContextMenuSub = React.memo(function ContextMenuSub({
   ...props
 }: React.ComponentProps<typeof ContextMenuPrimitive.Sub>) {
   return <ContextMenuPrimitive.Sub data-slot="context-menu-sub" {...props} />
-}
+})
 
-function ContextMenuRadioGroup({
+const ContextMenuRadioGroup = React.memo(function ContextMenuRadioGroup({
   ...props
 }: React.ComponentProps<typeof ContextMenuPrimitive.RadioGroup>) {
   return (
@@ -51,9 +51,9 @@ function ContextMenuRadioGroup({
       {...props}
     />
   )
-}
+})
 
-function ContextMenuSubTrigger({
+const ContextMenuSubTrigger = React.memo(function ContextMenuSubTrigger({
   className,
   inset,
   children,
@@ -75,9 +75,9 @@ function ContextMenuSubTrigger({
       <ChevronRightIcon className="ml-auto" />
     </ContextMenuPrimitive.SubTrigger>
   )
-}
+})
 
-function ContextMenuSubContent({
+const ContextMenuSubContent = React.memo(function ContextMenuSubContent({
   className,
   ...props
 }: React.ComponentProps<typeof ContextMenuPrimitive.SubContent>) {
@@ -91,9 +91,9 @@ function ContextMenuSubContent({
       {...props}
     />
   )
-}
+})
 
-function ContextMenuContent({
+const ContextMenuContent = React.memo(function ContextMenuContent({
   className,
   ...props
 }: React.ComponentProps<typeof ContextMenuPrimitive.Content>) {
@@ -109,9 +109,9 @@ function ContextMenuContent({
       />
     </ContextMenuPrimitive.Portal>
   )
-}
+})
 
-function ContextMenuItem({
+const ContextMenuItem = React.memo(function ContextMenuItem({
   className,
   inset,
   variant = "default",
@@ -132,9 +132,9 @@ function ContextMenuItem({
       {...props}
     />
   )
-}
+})
 
-function ContextMenuCheckboxItem({
+const ContextMenuCheckboxItem = React.memo(function ContextMenuCheckboxItem({
   className,
   children,
   checked,
@@ -158,9 +158,9 @@ function ContextMenuCheckboxItem({
       {children}
     </ContextMenuPrimitive.CheckboxItem>
   )
-}
+})
 
-function ContextMenuRadioItem({
+const ContextMenuRadioItem = React.memo(function ContextMenuRadioItem({
   className,
   children,
   ...props
@@ -184,7 +184,7 @@ function ContextMenuRadioItem({
   )
 }
 
-function ContextMenuLabel({
+const ContextMenuLabel = React.memo(function ContextMenuLabel({
   className,
   inset,
   ...props
@@ -202,9 +202,9 @@ function ContextMenuLabel({
       {...props}
     />
   )
-}
+})
 
-function ContextMenuSeparator({
+const ContextMenuSeparator = React.memo(function ContextMenuSeparator({
   className,
   ...props
 }: React.ComponentProps<typeof ContextMenuPrimitive.Separator>) {
@@ -215,9 +215,9 @@ function ContextMenuSeparator({
       {...props}
     />
   )
-}
+})
 
-function ContextMenuShortcut({
+const ContextMenuShortcut = React.memo(function ContextMenuShortcut({
   className,
   ...props
 }: React.ComponentProps<"span">) {
@@ -231,7 +231,7 @@ function ContextMenuShortcut({
       {...props}
     />
   )
-}
+})
 
 export {
   ContextMenu,

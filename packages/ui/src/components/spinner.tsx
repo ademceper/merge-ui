@@ -1,8 +1,9 @@
+import * as React from "react"
 import { Loader2Icon } from "lucide-react"
 
 import { cn } from "@merge/ui/lib/utils"
 
-function Spinner({ className, ...props }: React.ComponentProps<"svg">) {
+const Spinner = React.memo(function Spinner({ className, ...props }: React.ComponentProps<"svg">) {
   return (
     <Loader2Icon
       role="status"
@@ -11,6 +12,6 @@ function Spinner({ className, ...props }: React.ComponentProps<"svg">) {
       {...props}
     />
   )
-}
+})
 
 export { Spinner }

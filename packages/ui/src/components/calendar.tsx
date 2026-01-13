@@ -15,7 +15,7 @@ import {
 import { cn } from "@merge/ui/lib/utils"
 import { Button, buttonVariants } from "@merge/ui/components/button"
 
-function Calendar({
+const Calendar = React.memo(function Calendar({
   className,
   classNames,
   showOutsideDays = true,
@@ -177,9 +177,9 @@ function Calendar({
       {...props}
     />
   )
-}
+})
 
-function CalendarDayButton({
+const CalendarDayButton = React.memo(function CalendarDayButton({
   className,
   day,
   modifiers,

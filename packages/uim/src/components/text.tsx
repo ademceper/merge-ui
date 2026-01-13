@@ -40,16 +40,9 @@ const ROLE: Partial<Record<TextVariant, Role>> = {
   h4: 'heading',
 };
 
-const ARIA_LEVEL: Partial<Record<TextVariant, string>> = {
-  h1: '1',
-  h2: '2',
-  h3: '3',
-  h4: '4',
-};
-
 const TextClassContext = React.createContext<string | undefined>(undefined);
 
-function Text({
+const Text = React.memo(function Text({
   className,
   asChild = false,
   variant = 'default',
@@ -61,13 +54,19 @@ function Text({
   }) {
   const textClass = React.useContext(TextClassContext);
   const Component = asChild ? Slot.Text : RNText;
+  
+  const textClassName = React.useMemo(
+    () => cn(textVariants({ variant }), textClass, className),
+    [variant, textClass, className]
+  );
+
   return (
     <Component
-      className={cn(textVariants({ variant }), textClass, className)}
+      className={textClassName}
       role={variant ? ROLE[variant] : undefined}
       {...props}
     />
   );
-}
+})
 
 export { Text, TextClassContext };

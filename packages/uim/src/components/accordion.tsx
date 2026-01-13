@@ -4,7 +4,7 @@ import { cn } from '../lib/utils';
 import * as AccordionPrimitive from '@rn-primitives/accordion';
 import { ChevronDown } from 'lucide-react-native';
 import * as React from 'react';
-import { Pressable, View } from 'react-native';
+import { Pressable } from 'react-native';
 import Animated, {
   FadeOutUp,
   LayoutAnimationConfig,
@@ -14,7 +14,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
-function Accordion({
+const Accordion = React.memo(function Accordion({
   children,
   ...props
 }: Omit<AccordionPrimitive.RootProps, 'asChild'> &
@@ -28,9 +28,9 @@ function Accordion({
       </AccordionPrimitive.Root>
     </LayoutAnimationConfig>
   );
-}
+})
 
-function AccordionItem({
+const AccordionItem = React.memo(function AccordionItem({
   children,
   className,
   value,
@@ -52,7 +52,7 @@ function AccordionItem({
       </Animated.View>
     </AccordionPrimitive.Item>
   );
-}
+});
 
 const Trigger = Pressable;
 
@@ -60,7 +60,7 @@ const Trigger = Pressable;
 const EXPAND_TIMING = { duration: 250 };
 const COLLAPSE_TIMING = { duration: 200 };
 
-function AccordionTrigger({
+const AccordionTrigger = React.memo(function AccordionTrigger({
   className,
   children,
   ...props
@@ -68,6 +68,11 @@ function AccordionTrigger({
   children?: React.ReactNode;
 } & React.RefAttributes<AccordionPrimitive.TriggerRef>) {
   const { isExpanded } = AccordionPrimitive.useItemContext();
+
+  const textClassName = React.useMemo(
+    () => cn('text-left text-sm font-medium'),
+    []
+  );
 
   const progress = useDerivedValue(
     () => (isExpanded ? withTiming(1, EXPAND_TIMING) : withTiming(0, COLLAPSE_TIMING)),
@@ -81,10 +86,7 @@ function AccordionTrigger({
   );
 
   return (
-    <TextClassContext.Provider
-      value={cn(
-        'text-left text-sm font-medium'
-      )}>
+    <TextClassContext.Provider value={textClassName}>
       <AccordionPrimitive.Header>
         <AccordionPrimitive.Trigger {...props} asChild>
           <Trigger
@@ -107,16 +109,17 @@ function AccordionTrigger({
       </AccordionPrimitive.Header>
     </TextClassContext.Provider>
   );
-}
+});
 
 function AccordionContent({
   className,
   children,
   ...props
-}: AccordionPrimitive.ContentProps & React.RefAttributes<AccordionPrimitive.ContentRef>) {
-  const { isExpanded } = AccordionPrimitive.useItemContext();
+}: AccordionPrimitive.ContentProps & React.RefAttributes<AccordionPrimitive.ContentRef>): React.ReactElement {
+  const textClassName = React.useMemo(() => 'text-sm', []);
+
   return (
-    <TextClassContext.Provider value="text-sm">
+    <TextClassContext.Provider value={textClassName}>
       <AccordionPrimitive.Content
         className={cn(
           'overflow-hidden'
@@ -132,4 +135,6 @@ function AccordionContent({
   );
 }
 
-export { Accordion, AccordionContent, AccordionItem, AccordionTrigger };
+const AccordionContentMemo = React.memo(AccordionContent) as typeof AccordionContent;
+
+export { Accordion, AccordionContentMemo as AccordionContent, AccordionItem, AccordionTrigger };

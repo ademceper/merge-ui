@@ -6,7 +6,7 @@ import { MinusIcon } from "lucide-react"
 
 import { cn } from "@merge/ui/lib/utils"
 
-function InputOTP({
+const InputOTP = React.memo(function InputOTP({
   className,
   containerClassName,
   ...props
@@ -24,9 +24,9 @@ function InputOTP({
       {...props}
     />
   )
-}
+})
 
-function InputOTPGroup({ className, ...props }: React.ComponentProps<"div">) {
+const InputOTPGroup = React.memo(function InputOTPGroup({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="input-otp-group"
@@ -34,9 +34,9 @@ function InputOTPGroup({ className, ...props }: React.ComponentProps<"div">) {
       {...props}
     />
   )
-}
+})
 
-function InputOTPSlot({
+const InputOTPSlot = React.memo(function InputOTPSlot({
   index,
   className,
   ...props
@@ -64,14 +64,14 @@ function InputOTPSlot({
       )}
     </div>
   )
-}
+})
 
-function InputOTPSeparator({ ...props }: React.ComponentProps<"div">) {
+const InputOTPSeparator = React.memo(function InputOTPSeparator({ ...props }: React.ComponentProps<"div">) {
   return (
     <div data-slot="input-otp-separator" role="separator" {...props}>
       <MinusIcon />
     </div>
   )
-}
+})
 
 export { InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator }

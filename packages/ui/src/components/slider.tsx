@@ -5,7 +5,7 @@ import * as SliderPrimitive from "@radix-ui/react-slider"
 
 import { cn } from "@merge/ui/lib/utils"
 
-function Slider({
+const Slider = React.memo(function Slider({
   className,
   defaultValue,
   value,
@@ -58,6 +58,6 @@ function Slider({
       ))}
     </SliderPrimitive.Root>
   )
-}
+})
 
 export { Slider }

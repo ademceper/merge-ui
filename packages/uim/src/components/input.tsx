@@ -12,6 +12,9 @@ const Input = React.memo(function Input({ className, ...props }: TextInputProps 
         className
       )}
       accessibilityRole="text"
+      accessibilityLabel={props.accessibilityLabel || (props.placeholder ? undefined : 'Input field')}
+      accessibilityHint={props.accessibilityHint}
+      accessibilityState={{ disabled: props.editable === false }}
       {...props}
     />
   );

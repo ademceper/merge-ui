@@ -21,6 +21,9 @@ const Textarea = React.memo(function Textarea({
       numberOfLines={numberOfLines}
       textAlignVertical="top"
       accessibilityRole="text"
+      accessibilityLabel={props.accessibilityLabel || (props.placeholder ? undefined : 'Textarea field')}
+      accessibilityHint={props.accessibilityHint}
+      accessibilityState={{ disabled: props.editable === false }}
       {...props}
     />
   );

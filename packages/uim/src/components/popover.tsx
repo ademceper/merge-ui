@@ -11,7 +11,7 @@ const Popover = PopoverPrimitive.Root;
 
 const PopoverTrigger = PopoverPrimitive.Trigger;
 
-function PopoverContent({
+const PopoverContent = React.memo(function PopoverContent({
   className,
   align = 'center',
   sideOffset = 4,
@@ -26,7 +26,7 @@ function PopoverContent({
       <FullWindowOverlay>
         <PopoverPrimitive.Overlay style={StyleSheet.absoluteFill}>
           <NativeOnlyAnimatedView entering={FadeIn.duration(200)} exiting={FadeOut}>
-            <TextClassContext.Provider value="text-popover-foreground">
+            <TextClassContext.Provider value={React.useMemo(() => 'text-popover-foreground', [])}>
               <PopoverPrimitive.Content
                 align={align}
                 sideOffset={sideOffset}
@@ -42,6 +42,6 @@ function PopoverContent({
       </FullWindowOverlay>
     </PopoverPrimitive.Portal>
   );
-}
+});
 
 export { Popover, PopoverContent, PopoverTrigger };

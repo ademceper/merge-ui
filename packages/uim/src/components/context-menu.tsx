@@ -4,7 +4,7 @@ import { TextClassContext } from './text';
 import { cn } from '../lib/utils';
 import { FullWindowOverlay } from '../lib/platform-overlay';
 import * as ContextMenuPrimitive from '@rn-primitives/context-menu';
-import { Check, ChevronDown, ChevronRight, ChevronUp } from 'lucide-react-native';
+import { Check, ChevronDown, ChevronUp } from 'lucide-react-native';
 import * as React from 'react';
 import {
   type StyleProp,
@@ -22,8 +22,7 @@ const ContextMenuGroup = ContextMenuPrimitive.Group;
 const ContextMenuSub = ContextMenuPrimitive.Sub;
 const ContextMenuRadioGroup = ContextMenuPrimitive.RadioGroup;
 
-function ContextMenuSubTrigger({
-  className,
+const ContextMenuSubTrigger = React.memo(function ContextMenuSubTrigger({
   inset,
   children,
   iconClassName,
@@ -36,12 +35,18 @@ function ContextMenuSubTrigger({
   }) {
   const { open } = ContextMenuPrimitive.useSubContext();
   const icon = open ? ChevronUp : ChevronDown;
-  return (
-    <TextClassContext.Provider
-      value={cn(
+  
+  const textClassName = React.useMemo(
+    () =>
+      cn(
         'text-sm group-active:text-accent-foreground',
         open && 'text-accent-foreground'
-      )}>
+      ),
+    [open]
+  );
+
+  return (
+    <TextClassContext.Provider value={textClassName}>
       <ContextMenuPrimitive.SubTrigger
         className={cn(
           'active:bg-accent group flex flex-row items-center rounded-sm px-2 py-2',
@@ -54,9 +59,9 @@ function ContextMenuSubTrigger({
       </ContextMenuPrimitive.SubTrigger>
     </TextClassContext.Provider>
   );
-}
+})
 
-function ContextMenuSubContent({
+const ContextMenuSubContent = React.memo(function ContextMenuSubContent({
   className,
   ...props
 }: ContextMenuPrimitive.SubContentProps & React.RefAttributes<ContextMenuPrimitive.SubContentRef>) {
@@ -71,9 +76,9 @@ function ContextMenuSubContent({
       />
     </NativeOnlyAnimatedView>
   );
-}
+})
 
-function ContextMenuContent({
+const ContextMenuContent = React.memo(function ContextMenuContent({
   className,
   overlayClassName,
   overlayStyle,
@@ -85,6 +90,8 @@ function ContextMenuContent({
     overlayClassName?: string;
     portalHost?: string;
   }) {
+  const textClassName = React.useMemo(() => 'text-popover-foreground', []);
+
   return (
     <ContextMenuPrimitive.Portal hostName={portalHost}>
       <FullWindowOverlay>
@@ -99,7 +106,7 @@ function ContextMenuContent({
           }
           className={overlayClassName}>
           <NativeOnlyAnimatedView entering={FadeIn}>
-            <TextClassContext.Provider value="text-popover-foreground">
+            <TextClassContext.Provider value={textClassName}>
               <ContextMenuPrimitive.Content
                 className={cn(
                   'bg-popover border-border min-w-[8rem] overflow-hidden rounded-md border p-1 shadow-lg shadow-black/5',
@@ -113,9 +120,9 @@ function ContextMenuContent({
       </FullWindowOverlay>
     </ContextMenuPrimitive.Portal>
   );
-}
+})
 
-function ContextMenuItem({
+const ContextMenuItem = React.memo(function ContextMenuItem({
   className,
   inset,
   variant,
@@ -149,9 +156,9 @@ function ContextMenuItem({
       />
     </TextClassContext.Provider>
   );
-}
+});
 
-function ContextMenuCheckboxItem({
+const ContextMenuCheckboxItem = React.memo(function ContextMenuCheckboxItem({
   className,
   children,
   ...props
@@ -159,8 +166,10 @@ function ContextMenuCheckboxItem({
   React.RefAttributes<ContextMenuPrimitive.CheckboxItemRef> & {
     children?: React.ReactNode;
   }) {
+  const textClassName = React.useMemo(() => 'text-sm text-popover-foreground group-active:text-accent-foreground', []);
+
   return (
-    <TextClassContext.Provider value="text-sm text-popover-foreground group-active:text-accent-foreground">
+    <TextClassContext.Provider value={textClassName}>
       <ContextMenuPrimitive.CheckboxItem
         className={cn(
           'active:bg-accent group relative flex flex-row items-center gap-2 rounded-sm py-2 pl-8 pr-2',
@@ -182,9 +191,9 @@ function ContextMenuCheckboxItem({
       </ContextMenuPrimitive.CheckboxItem>
     </TextClassContext.Provider>
   );
-}
+})
 
-function ContextMenuRadioItem({
+const ContextMenuRadioItem = React.memo(function ContextMenuRadioItem({
   className,
   children,
   ...props
@@ -192,8 +201,10 @@ function ContextMenuRadioItem({
   React.RefAttributes<ContextMenuPrimitive.RadioItemRef> & {
     children?: React.ReactNode;
   }) {
+  const textClassName = React.useMemo(() => 'text-sm text-popover-foreground group-active:text-accent-foreground', []);
+
   return (
-    <TextClassContext.Provider value="text-sm text-popover-foreground group-active:text-accent-foreground">
+    <TextClassContext.Provider value={textClassName}>
       <ContextMenuPrimitive.RadioItem
         className={cn(
           'active:bg-accent group relative flex flex-row items-center gap-2 rounded-sm py-2 pl-8 pr-2',
@@ -210,9 +221,9 @@ function ContextMenuRadioItem({
       </ContextMenuPrimitive.RadioItem>
     </TextClassContext.Provider>
   );
-}
+})
 
-function ContextMenuLabel({
+const ContextMenuLabel = React.memo(function ContextMenuLabel({
   className,
   inset,
   ...props
@@ -231,9 +242,9 @@ function ContextMenuLabel({
       {...props}
     />
   );
-}
+});
 
-function ContextMenuSeparator({
+const ContextMenuSeparator = React.memo(function ContextMenuSeparator({
   className,
   ...props
 }: ContextMenuPrimitive.SeparatorProps & React.RefAttributes<ContextMenuPrimitive.SeparatorRef>) {
@@ -243,16 +254,16 @@ function ContextMenuSeparator({
       {...props}
     />
   );
-}
+});
 
-function ContextMenuShortcut({ className, ...props }: TextProps & React.RefAttributes<Text>) {
+const ContextMenuShortcut = React.memo(function ContextMenuShortcut({ className, ...props }: TextProps & React.RefAttributes<Text>) {
   return (
     <Text
       className={cn('text-muted-foreground ml-auto text-xs tracking-widest', className)}
       {...props}
     />
   );
-}
+});
 
 export {
   ContextMenu,

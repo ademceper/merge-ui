@@ -14,7 +14,7 @@ const AlertDialogTrigger = AlertDialogPrimitive.Trigger;
 
 const AlertDialogPortal = AlertDialogPrimitive.Portal;
 
-function AlertDialogOverlay({
+const AlertDialogOverlay = React.memo(function AlertDialogOverlay({
   className,
   children,
   ...props
@@ -38,7 +38,7 @@ function AlertDialogOverlay({
       </AlertDialogPrimitive.Overlay>
     </FullWindowOverlay>
   );
-}
+})
 
 function AlertDialogContent({
   className,
@@ -47,7 +47,7 @@ function AlertDialogContent({
 }: AlertDialogPrimitive.ContentProps &
   React.RefAttributes<AlertDialogPrimitive.ContentRef> & {
     portalHost?: string;
-  }) {
+  }): React.ReactElement {
   return (
     <AlertDialogPortal hostName={portalHost}>
       <AlertDialogOverlay>
@@ -63,24 +63,28 @@ function AlertDialogContent({
   );
 }
 
-function AlertDialogHeader({ className, ...props }: ViewProps) {
+const AlertDialogContentMemo = React.memo(AlertDialogContent) as typeof AlertDialogContent;
+
+const AlertDialogHeader = React.memo(function AlertDialogHeader({ className, ...props }: ViewProps) {
+  const textClassName = React.useMemo(() => 'text-center', []);
+
   return (
-    <TextClassContext.Provider value="text-center">
+    <TextClassContext.Provider value={textClassName}>
       <View className={cn('flex flex-col gap-2', className)} {...props} />
     </TextClassContext.Provider>
   );
-}
+})
 
-function AlertDialogFooter({ className, ...props }: ViewProps) {
+const AlertDialogFooter = React.memo(function AlertDialogFooter({ className, ...props }: ViewProps) {
   return (
     <View
       className={cn('flex flex-col-reverse gap-2', className)}
       {...props}
     />
   );
-}
+})
 
-function AlertDialogTitle({
+const AlertDialogTitle = React.memo(function AlertDialogTitle({
   className,
   ...props
 }: AlertDialogPrimitive.TitleProps & React.RefAttributes<AlertDialogPrimitive.TitleRef>) {
@@ -90,9 +94,9 @@ function AlertDialogTitle({
       {...props}
     />
   );
-}
+})
 
-function AlertDialogDescription({
+const AlertDialogDescription = React.memo(function AlertDialogDescription({
   className,
   ...props
 }: AlertDialogPrimitive.DescriptionProps &
@@ -103,38 +107,56 @@ function AlertDialogDescription({
       {...props}
     />
   );
-}
+})
 
-function AlertDialogAction({
+const AlertDialogAction = React.memo(function AlertDialogAction({
   className,
+  variant = 'default',
+  size = 'default',
   ...props
-}: AlertDialogPrimitive.ActionProps & React.RefAttributes<AlertDialogPrimitive.ActionRef>) {
+}: AlertDialogPrimitive.ActionProps & React.RefAttributes<AlertDialogPrimitive.ActionRef> & {
+  variant?: 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link';
+  size?: 'default' | 'sm' | 'lg' | 'icon';
+}) {
+  const textClassName = React.useMemo(
+    () => buttonTextVariants({ variant, size }),
+    [variant, size]
+  );
+
   return (
-    <TextClassContext.Provider value={buttonTextVariants({ className })}>
-      <AlertDialogPrimitive.Action className={cn(buttonVariants(), className)} {...props} />
+    <TextClassContext.Provider value={textClassName}>
+      <AlertDialogPrimitive.Action className={cn(buttonVariants({ variant, size }), className)} {...props} />
     </TextClassContext.Provider>
   );
-}
+})
 
-function AlertDialogCancel({
+const AlertDialogCancel = React.memo(function AlertDialogCancel({
   className,
+  size = 'default',
   ...props
-}: AlertDialogPrimitive.CancelProps & React.RefAttributes<AlertDialogPrimitive.CancelRef>) {
+}: AlertDialogPrimitive.CancelProps & React.RefAttributes<AlertDialogPrimitive.CancelRef> & {
+  size?: 'default' | 'sm' | 'lg' | 'icon';
+}) {
+  const textClassName = React.useMemo(
+    () => buttonTextVariants({ variant: 'outline', size }),
+    [size]
+  );
+
   return (
-    <TextClassContext.Provider value={buttonTextVariants({ className, variant: 'outline' })}>
+    <TextClassContext.Provider value={textClassName}>
       <AlertDialogPrimitive.Cancel
-        className={cn(buttonVariants({ variant: 'outline' }), className)}
+        className={cn(buttonVariants({ variant: 'outline', size }), className)}
         {...props}
       />
     </TextClassContext.Provider>
   );
-}
+})
 
 export {
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
-  AlertDialogContent,
+  AlertDialogContentMemo as AlertDialogContent,
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,

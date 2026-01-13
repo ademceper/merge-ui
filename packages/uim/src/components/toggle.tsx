@@ -26,7 +26,7 @@ const toggleVariants = cva(
   }
 );
 
-function Toggle({
+const Toggle = React.memo(function Toggle({
   className,
   variant,
   size,
@@ -57,11 +57,15 @@ function Toggle({
       />
     </TextClassContext.Provider>
   );
-}
+});
 
-function ToggleIcon({ className, ...props }: React.ComponentProps<typeof Icon>) {
+const ToggleIcon = React.memo(function ToggleIcon({ className, ...props }: React.ComponentProps<typeof Icon>) {
   const textClass = React.useContext(TextClassContext);
-  return <Icon className={cn('size-4 shrink-0', textClass, className)} {...props} />;
-}
+  const iconClassName = React.useMemo(
+    () => cn('size-4 shrink-0', textClass, className),
+    [textClass, className]
+  );
+  return <Icon className={iconClassName} {...props} />;
+})
 
 export { Toggle, ToggleIcon, toggleVariants };

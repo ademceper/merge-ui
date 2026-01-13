@@ -5,31 +5,31 @@ import { Drawer as DrawerPrimitive } from "vaul"
 
 import { cn } from "@merge/ui/lib/utils"
 
-function Drawer({
+const Drawer = React.memo(function Drawer({
   ...props
 }: React.ComponentProps<typeof DrawerPrimitive.Root>) {
   return <DrawerPrimitive.Root data-slot="drawer" {...props} />
-}
+})
 
-function DrawerTrigger({
+const DrawerTrigger = React.memo(function DrawerTrigger({
   ...props
 }: React.ComponentProps<typeof DrawerPrimitive.Trigger>) {
   return <DrawerPrimitive.Trigger data-slot="drawer-trigger" {...props} />
-}
+})
 
-function DrawerPortal({
+const DrawerPortal = React.memo(function DrawerPortal({
   ...props
 }: React.ComponentProps<typeof DrawerPrimitive.Portal>) {
   return <DrawerPrimitive.Portal data-slot="drawer-portal" {...props} />
-}
+})
 
-function DrawerClose({
+const DrawerClose = React.memo(function DrawerClose({
   ...props
 }: React.ComponentProps<typeof DrawerPrimitive.Close>) {
   return <DrawerPrimitive.Close data-slot="drawer-close" {...props} />
-}
+})
 
-function DrawerOverlay({
+const DrawerOverlay = React.memo(function DrawerOverlay({
   className,
   ...props
 }: React.ComponentProps<typeof DrawerPrimitive.Overlay>) {
@@ -43,9 +43,9 @@ function DrawerOverlay({
       {...props}
     />
   )
-}
+})
 
-function DrawerContent({
+const DrawerContent = React.memo(function DrawerContent({
   className,
   children,
   ...props
@@ -70,9 +70,9 @@ function DrawerContent({
       </DrawerPrimitive.Content>
     </DrawerPortal>
   )
-}
+})
 
-function DrawerHeader({ className, ...props }: React.ComponentProps<"div">) {
+const DrawerHeader = React.memo(function DrawerHeader({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="drawer-header"
@@ -83,9 +83,9 @@ function DrawerHeader({ className, ...props }: React.ComponentProps<"div">) {
       {...props}
     />
   )
-}
+})
 
-function DrawerFooter({ className, ...props }: React.ComponentProps<"div">) {
+const DrawerFooter = React.memo(function DrawerFooter({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="drawer-footer"
@@ -93,9 +93,9 @@ function DrawerFooter({ className, ...props }: React.ComponentProps<"div">) {
       {...props}
     />
   )
-}
+})
 
-function DrawerTitle({
+const DrawerTitle = React.memo(function DrawerTitle({
   className,
   ...props
 }: React.ComponentProps<typeof DrawerPrimitive.Title>) {
@@ -106,9 +106,9 @@ function DrawerTitle({
       {...props}
     />
   )
-}
+})
 
-function DrawerDescription({
+const DrawerDescription = React.memo(function DrawerDescription({
   className,
   ...props
 }: React.ComponentProps<typeof DrawerPrimitive.Description>) {
@@ -119,7 +119,7 @@ function DrawerDescription({
       {...props}
     />
   )
-}
+})
 
 export {
   Drawer,

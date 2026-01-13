@@ -5,7 +5,7 @@ import type { LucideIcon } from 'lucide-react-native';
 import * as React from 'react';
 import { View, type ViewProps } from 'react-native';
 
-function Alert({
+const Alert = React.memo(function Alert({
   className,
   variant,
   children,
@@ -50,26 +50,28 @@ function Alert({
             />
           </View>
         )}
-        {children}
+        <View className={cn(icon && 'pl-6')}>
+          {children}
+        </View>
       </View>
     </TextClassContext.Provider>
   );
-}
+});
 
-function AlertTitle({
+const AlertTitle = React.memo(function AlertTitle({
   className,
   ...props
 }: React.ComponentProps<typeof Text> & React.RefAttributes<Text>) {
   const textClass = React.useContext(TextClassContext);
   const titleClassName = React.useMemo(
-    () => cn('mb-1 ml-0.5 min-h-4 pl-6 font-medium leading-none tracking-tight', textClass, className),
+    () => cn('mb-1 ml-0.5 min-h-4 font-medium leading-none tracking-tight', textClass, className),
     [textClass, className]
   );
 
   return <Text className={titleClassName} {...props} />;
-}
+});
 
-function AlertDescription({
+const AlertDescription = React.memo(function AlertDescription({
   className,
   ...props
 }: React.ComponentProps<typeof Text> & React.RefAttributes<Text>) {
@@ -77,7 +79,7 @@ function AlertDescription({
   const descriptionClassName = React.useMemo(
     () =>
       cn(
-        'text-muted-foreground ml-0.5 pb-1.5 pl-6 text-sm leading-relaxed',
+        'text-muted-foreground ml-0.5 pb-1.5 text-sm leading-relaxed',
         textClass?.includes('text-destructive') && 'text-destructive/90',
         className
       ),
@@ -85,6 +87,6 @@ function AlertDescription({
   );
 
   return <Text className={descriptionClassName} {...props} />;
-}
+});
 
 export { Alert, AlertDescription, AlertTitle };

@@ -9,6 +9,7 @@ import {
   SpaceGrotesk_500Medium,
   SpaceGrotesk_700Bold,
 } from "@expo-google-fonts/space-grotesk"
+import { ErrorBoundary } from "@merge/uim/components/error-boundary"
 
 SplashScreen.preventAutoHideAsync()
 
@@ -27,14 +28,16 @@ const AppLayout = () => {
   }, [fontsLoaded, fontError])
 
   return (
-    <Stack
-      screenOptions={{
-        headerShown: false,
-        headerTitleStyle: {
-          fontFamily: fontsLoaded ? 'SpaceGrotesk-Regular' : undefined,
-        },
-      }}
-    />
+    <ErrorBoundary>
+      <Stack
+        screenOptions={{
+          headerShown: false,
+          headerTitleStyle: {
+            fontFamily: fontsLoaded ? 'SpaceGrotesk-Regular' : undefined,
+          },
+        }}
+      />
+    </ErrorBoundary>
   )
 }
 

@@ -9,9 +9,9 @@ type IconProps = LucideProps & {
   size?: number;
 };
 
-function IconImpl({ as: IconComponent, ...props }: IconProps) {
+const IconImpl = React.memo(function IconImpl({ as: IconComponent, ...props }: IconProps) {
   return <IconComponent {...props} />;
-}
+});
 
 cssInterop(IconImpl, {
   className: {
@@ -43,7 +43,7 @@ cssInterop(IconImpl, {
  * @param {number} size - Icon size (defaults to 14).
  * @param {...LucideProps} ...props - Additional Lucide icon props passed to the "as" icon.
  */
-function Icon({ as: IconComponent, className, size = 14, ...props }: IconProps) {
+const Icon = React.memo(function Icon({ as: IconComponent, className, size = 14, ...props }: IconProps) {
   return (
     <IconImpl
       as={IconComponent}
@@ -52,6 +52,6 @@ function Icon({ as: IconComponent, className, size = 14, ...props }: IconProps) 
       {...props}
     />
   );
-}
+})
 
 export { Icon };
